@@ -2,7 +2,6 @@ package frc.lib.util;
 import java.util.function.BooleanSupplier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class TunableOption implements BooleanSupplier {
-    // TODO Consider using raw NetworkTables and subscribe to updates, instead of using SmartDashboard
   private static final String tableKey = "TunableOptions";
 
   private String key;
