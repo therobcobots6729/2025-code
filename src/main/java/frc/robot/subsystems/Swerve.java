@@ -1,10 +1,13 @@
 package frc.robot.subsystems;
 
-import static edu.wpi.first.units.Units.Degrees;
+
 
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -27,12 +30,21 @@ public class Swerve extends SubsystemBase {
   public SwerveModule[] mSwerveMods;
   // public static AHRS gyro;
   public Pigeon2 gyro;
-
+  
   public Swerve() {
+    
+       // Handle exception as needed
+       
+       
     gyro = new Pigeon2(Constants.Swerve.pigeonID);
     gyro.getConfigurator().apply(new Pigeon2Configuration());
     gyro.setYaw(0);
-
+RobotConfig config;
+       
+    try{
+       config = RobotConfig.fromGUISettings();
+     } catch (Exception e) {e.printStackTrace();
+     }
     mSwerveMods =
         new SwerveModule[] {
           new SwerveModule(0, Constants.Swerve.Mod0.constants),
@@ -40,12 +52,44 @@ public class Swerve extends SubsystemBase {
           new SwerveModule(2, Constants.Swerve.Mod2.constants),
           new SwerveModule(3, Constants.Swerve.Mod3.constants)
         };
-
+        
     swerveOdometry =
         new SwerveDriveOdometry(
             Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());
-   
+   AutoBuilder.configure(
+        this::getPose, // Robot pose supplier
+        this::setPose, // Method to reset odometry (will be called if your auto has a starting pose)
+        this::getCurrentSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+        this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE
+        // ChassisSpeeds
+        
+        new PPHolonomicDriveController( // HolonomicPathFollowerConfig, this should likely live in
+            // your
+            // Constants class
+            new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+            new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
+            // Drive base radius in meters. Distance from robot center to furthest module.
+             // Default path replanning config. See the API for the options
+            // here
+            ),
+            config,
+        () -> {
+          // Boolean supplier that controls when the path will be mirrored for the red
+          // alliance
+          // This will flip the path being followed to the red side of the field.
+          // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+          var alliance = DriverStation.getAlliance();
+          if (alliance.isPresent()) {
+            return alliance.get() == DriverStation.Alliance.Red;
+          }
+          return false;
+        },
+        
+        this // Reference to this subsystem to set requirements
+        );
   }
+  
 
   public void drive(
       Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {

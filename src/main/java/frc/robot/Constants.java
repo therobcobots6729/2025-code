@@ -19,11 +19,12 @@ public final class Constants {
   public static final class Swerve {
     // public static final boolean invertGyro = true; // Always ensure Gyro is CCW+
     // CW-
+    
     public static final int pigeonID = 23;
     public static final COTSTalonFXSwerveConstants chosenModule =
         COTSTalonFXSwerveConstants.SDS.MK4.Falcon500(
             COTSTalonFXSwerveConstants.SDS.MK4.driveRatios.L2);
-
+    
     /* Drivetrain Constants */
     public static final double trackWidth = Units.inchesToMeters(24.75);
     public static final double wheelBase = Units.inchesToMeters(22.5);
