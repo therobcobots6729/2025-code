@@ -4,11 +4,22 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class flippy extends SubsystemBase {
   /** Creates a new flippy. */
-  public flippy() {}
+  public final TalonFX pivot;
+  public final DutyCycleEncoder wristEncoder;
+  public flippy() {
+    pivot = new TalonFX(0);
+    wristEncoder = new DutyCycleEncoder(5);
+    pivot.setNeutralMode(NeutralModeValue.Brake);
+  }
 
   @Override
   public void periodic() {
