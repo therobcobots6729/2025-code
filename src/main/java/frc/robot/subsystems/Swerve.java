@@ -30,7 +30,7 @@ public class Swerve extends SubsystemBase {
   public SwerveModule[] mSwerveMods;
   // public static AHRS gyro;
   public Pigeon2 gyro;
-  
+  public RobotConfig Rconfig;
   public Swerve() {
     
        // Handle exception as needed
@@ -39,10 +39,10 @@ public class Swerve extends SubsystemBase {
     gyro = new Pigeon2(Constants.Swerve.pigeonID);
     gyro.getConfigurator().apply(new Pigeon2Configuration());
     gyro.setYaw(0);
-RobotConfig config;
+
        
     try{
-       config = RobotConfig.fromGUISettings();
+       Rconfig = RobotConfig.fromGUISettings();
      } catch (Exception e) {e.printStackTrace();
      }
     mSwerveMods =
@@ -72,7 +72,7 @@ RobotConfig config;
              // Default path replanning config. See the API for the options
             // here
             ),
-            config,
+            Rconfig,
         () -> {
           // Boolean supplier that controls when the path will be mirrored for the red
           // alliance
