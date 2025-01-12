@@ -3,8 +3,6 @@ package frc.robot;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
-
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -165,6 +163,19 @@ public final class Constants {
   public static final class vision {
     
   }
-   
 
+  /* Intake/Scoring Mechanism */
+  public static final class sucky {
+
+  }
+
+  /* Wrist Mechanism */
+  public static final class flippy {
+
+  }
+
+  /* Elevator Mechanism */
+  public static final class extendy {
+
+  }
 }
