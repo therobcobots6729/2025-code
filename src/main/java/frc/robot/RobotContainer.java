@@ -26,7 +26,7 @@ public class RobotContainer {
  // private final SendableChooser<Command> autoChooser;
   /* Controllers */
   private final Joystick driver = new Joystick(0);
-  
+  private final SendableChooser<Command> autoChooser;
 
   /* Drive Controls */
   private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -65,6 +65,13 @@ public class RobotContainer {
     configureButtonBindings();
     /*autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);*/
+    // Build an auto chooser. This will use Commands.none() as the default option.
+    autoChooser = AutoBuilder.buildAutoChooser();
+
+    // Another option that allows you to specify the default auto by its name
+    // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
+
+    SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   /**
@@ -90,6 +97,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return null;
+    return autoChooser.getSelected();
   }
 }
