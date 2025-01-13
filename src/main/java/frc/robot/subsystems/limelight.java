@@ -13,7 +13,8 @@ public class limelight extends SubsystemBase {
   /** Creates a new limelight. */
   public static double x;
   public static double y;
-  public static double d;
+  public static double reefd;
+  public static double processord;
   public static double ID;
   public limelight() {}
 
@@ -27,11 +28,20 @@ public class limelight extends SubsystemBase {
     double targetOffsetAngle_Vertical = ty.getDouble(0.0);
     double limelightMountAngleDegrees = 0;// change
     double limelightLensHeightInches = 18; // change 
-    double GoalHeightInches = 12.125;
-    double angletoGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
-    double angletoGoalRadians= angletoGoalDegrees * (3.14159/180);
-    double distanceFromLimelighttoGoalInches = (GoalHeightInches-limelightLensHeightInches)/Math.tan(angletoGoalRadians);
-    double d = distanceFromLimelighttoGoalInches;
+    
+    
+    double reefHeightInches = 12.125;
+    double angletoReefDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
+    double angletoReefRadians= angletoReefDegrees * (3.14159/180);
+    double distanceFromLimelighttoReefInches = (reefHeightInches-limelightLensHeightInches)/Math.tan(angletoReefRadians);
+    reefd = distanceFromLimelighttoReefInches;
+    
+    
+    double processorHeightInches = 51.125;
+    double angletoprocessorDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
+    double angletoprocessorRadians= angletoprocessorDegrees * (3.14159/180);
+    double distanceFromLimelighttoprocessorInches = (processorHeightInches-limelightLensHeightInches)/Math.tan(angletoprocessorRadians);
+    processord = distanceFromLimelighttoprocessorInches;
 
 //read values periodically
     x = tx.getDouble(0.0);

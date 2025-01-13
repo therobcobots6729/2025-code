@@ -44,8 +44,10 @@ public class RobotContainer {
 
   /* Subsystems */
   private final Swerve s_Swerve = new Swerve();
- 
-  //private final limelight l_Limelight = new limelight();
+  private final extendy e_Extendy = new extendy();
+  private final flippy f_Flippy = new flippy();
+  private final sucky s_Sucky = new sucky();
+  private final limelight l_Limelight = new limelight(); // do not touch, is required for limelight to work even if it says not used
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
