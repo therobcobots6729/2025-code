@@ -40,10 +40,13 @@ public class AutoSwerve extends Command {
         /* Get Values, Deadband */
    
     /* Drive */ // change 4 and 7 before a real match*/
-        /* if ((limelight.ID == 4.0|| limelight.ID == 7.0 )  && (Math.abs(limelight.x) > 1   || Math.abs(limelight.by) > .5 || limelight.bs !=0)) {
+        /* if ((limelight.ID == 6.0 || limelight.ID == 7.0 || limelight.ID == 8.0 || limelight.ID == 9.0 
+        || limelight.ID == 10.0 || limelight.ID == 11.0 ||limelight.ID == 17.0|| limelight.ID == 18.0 
+        || limelight.ID == 19.0 || limelight.ID == 20.0 || limelight.ID == 21.0 || limelight.ID == 22.0 )  
+        && (Math.abs(limelight.x) > 1   || Math.abs(limelight.by) > .5 || limelight.bs !=0)) {
                
-        
-               
+        (6.0 <= limelight.ID <= 11.0 || 17.0 <= limelight.ID <= 22.0) // contains all reef IDs
+        (limeligt.ID == 1.0 || limelight.ID == 2.0 || limelight.ID == 12.0 || limelight.ID == 13.0)     // all source IDs
           s_Swerve.drive(
             new Translation2d(limelight.by,0)
             .times(Constants.Swerve.maxSpeed * .025), 
