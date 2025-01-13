@@ -9,6 +9,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class flippy extends SubsystemBase {  
@@ -23,6 +24,7 @@ public class flippy extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("wrist angle", wristEncoder.get());
     // This method will be called once per scheduler run
   }
 }
