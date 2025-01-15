@@ -178,6 +178,6 @@ public final class Constants {
 
   /* Elevator Mechanism */
   public static final class extendy {
-
+    public static final int spoolMotor = 22;
   }
 }

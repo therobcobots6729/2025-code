@@ -34,10 +34,13 @@ public class RobotContainer {
   private final int rotationAxis = XboxController.Axis.kRightX.value;
 
   /* Driver Buttons */
-   private final JoystickButton zeroGyro =
+  private final JoystickButton zeroGyro =
       new JoystickButton(driver, XboxController.Button.kStart.value);
   private final JoystickButton robotCentric =
       new JoystickButton(driver, XboxController.Button.kRightStick.value);
+  private final JoystickButton upExtendy = new JoystickButton(driver, XboxController.Button.kY.value);
+  private final JoystickButton downExtendy = new JoystickButton(driver, XboxController.Button.kA.value);
+
  
   /* Operator Buttons */
 
@@ -59,7 +62,11 @@ public class RobotContainer {
             () -> -driver.getRawAxis(rotationAxis) ,
             () -> robotCentric.getAsBoolean()));
     
-   
+   e_Extendy.setDefaultCommand(
+        new runExtendy(
+            e_Extendy,
+            () -> upExtendy.getAsBoolean(),
+            () -> downExtendy.getAsBoolean()));
            
    
                 
