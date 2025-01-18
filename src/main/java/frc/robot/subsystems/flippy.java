@@ -12,10 +12,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class flippy extends SubsystemBase {  
   /** Creates a new flippy. */
-  //public final TalonFX pivot;
-  public final DutyCycleEncoder wristEncoder;
+  public static TalonFX pivot;
+  public static DutyCycleEncoder wristEncoder;
   public flippy() {
-    //pivot = new TalonFX(0);
+    pivot = new TalonFX(20);
     wristEncoder = new DutyCycleEncoder(5);
     //pivot.setNeutralMode(NeutralModeValue.Brake);
   }

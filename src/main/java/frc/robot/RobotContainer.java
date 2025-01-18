@@ -40,7 +40,10 @@ public class RobotContainer {
       new JoystickButton(driver, XboxController.Button.kRightStick.value);
   private final JoystickButton upExtendy = new JoystickButton(driver, XboxController.Button.kY.value);
   private final JoystickButton downExtendy = new JoystickButton(driver, XboxController.Button.kA.value);
-
+  private final JoystickButton outtake = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+  private final JoystickButton intake = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+  private final JoystickButton out = new JoystickButton(driver, XboxController.Button.kB.value);
+  private final JoystickButton in = new JoystickButton(driver, XboxController.Button.kX.value);
  
   /* Operator Buttons */
 
@@ -67,6 +70,19 @@ public class RobotContainer {
             e_Extendy,
             () -> upExtendy.getAsBoolean(),
             () -> downExtendy.getAsBoolean()));
+    
+    s_Sucky.setDefaultCommand(
+      new runSucky(
+        s_Sucky, 
+        () -> outtake.getAsBoolean(), 
+        () -> intake.getAsBoolean())
+    );
+    f_Flippy.setDefaultCommand(
+      new runSucky(
+        s_Sucky, 
+        () -> out.getAsBoolean(), 
+        () -> in.getAsBoolean())
+    );
            
    
                 
