@@ -78,8 +78,8 @@ public class RobotContainer {
         () -> intake.getAsBoolean())
     );
     f_Flippy.setDefaultCommand(
-      new runSucky(
-        s_Sucky, 
+      new runFlippy(
+        f_Flippy, 
         () -> out.getAsBoolean(), 
         () -> in.getAsBoolean())
     );
