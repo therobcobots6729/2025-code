@@ -9,20 +9,16 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.Swerve;
-//import frc.robot.subsystems.limelight;
+import frc.robot.subsystems.limelight;
 
 
 
 
-public class AutoSwerve extends Command {
+public class AutoReefSwerve extends Command {
   private Swerve s_Swerve;
-    double ts;
-    public static double ty;
-  public AutoSwerve(
-    Swerve s_Swerve
     
-    
-  ) {
+  
+  public AutoReefSwerve(Swerve s_Swerve) {
     this.s_Swerve = s_Swerve;
     addRequirements(s_Swerve);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -40,20 +36,21 @@ public class AutoSwerve extends Command {
         /* Get Values, Deadband */
    
     /* Drive */ // change 4 and 7 before a real match*/
-        /* if ((limelight.ID == 6.0 || limelight.ID == 7.0 || limelight.ID == 8.0 || limelight.ID == 9.0 
-        || limelight.ID == 10.0 || limelight.ID == 11.0 ||limelight.ID == 17.0|| limelight.ID == 18.0 
-        || limelight.ID == 19.0 || limelight.ID == 20.0 || limelight.ID == 21.0 || limelight.ID == 22.0 )  
-        && (Math.abs(limelight.x) > 1   || Math.abs(limelight.by) > .5 || limelight.bs !=0)) {
+        if ((limelight.ID1 == 6.0 || limelight.ID1 == 7.0 || limelight.ID1 == 8.0 || limelight.ID1 == 9.0 
+        || limelight.ID1 == 10.0 || limelight.ID1 == 11.0 ||limelight.ID1 == 17.0|| limelight.ID1 == 18.0 
+        || limelight.ID1 == 19.0 || limelight.ID1 == 20.0 || limelight.ID1 == 21.0 || limelight.ID1 == 22.0 )  
+        && (Math.abs(limelight.x1) > 1   || limelight.reefd > .5)) {
                
-        (6.0 <= limelight.ID <= 11.0 || 17.0 <= limelight.ID <= 22.0) // contains all reef IDs
-        (limeligt.ID == 1.0 || limelight.ID == 2.0 || limelight.ID == 12.0 || limelight.ID == 13.0)     // all source IDs
+         // contains all reef IDs
+        //(limeligt.ID == 1.0 || limelight.ID == 2.0 || limelight.ID == 12.0 || limelight.ID == 13.0)     // all source IDs
           s_Swerve.drive(
-            new Translation2d(limelight.by,0)
+            new Translation2d(limelight.reefd,0)
             .times(Constants.Swerve.maxSpeed * .025), 
-            -limelight.x  *.1, 
+            -limelight.x1  *.1, 
             false, 
             true);
          } 
+        
          else {
           s_Swerve.drive(
             new Translation2d(0,0),
@@ -75,7 +72,7 @@ public class AutoSwerve extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(limelight.x) > 1 || Math.abs(limelight.by) > .5    || s_Swerve.mSwerveMods[0].getState().speedMetersPerSecond != 0){
+    if (Math.abs(limelight.x1) > 1 || Math.abs(limelight.reefd) > .5    || s_Swerve.mSwerveMods[0].getState().speedMetersPerSecond != 0){
       return false;
     
     }
@@ -83,5 +80,5 @@ public class AutoSwerve extends Command {
     else{
       return true;
     }
-  }*/
-}}
+  }
+}
