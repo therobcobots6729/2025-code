@@ -16,6 +16,10 @@ public class flippy extends SubsystemBase {
   public static TalonFX rightPivot;
   public static DutyCycleEncoder wristEncoder;
   public double wristAngle;
+  public double backWristTargetDistance;
+  public double upWristTargetDistance;
+  public double downWristTargetDistance;
+  public double forwardWristTargetDistance;
   public flippy() {
     leftPivot = new TalonFX(20);
     rightPivot = new TalonFX(21);
@@ -27,6 +31,10 @@ public class flippy extends SubsystemBase {
   @Override
   public void periodic() {
     wristAngle = (wristEncoder.get() / 360) - 0;
+    backWristTargetDistance = 24 - wristAngle; //24 is a placeholder for the target angle in degrees
+    forwardWristTargetDistance = 24 - wristAngle;
+    upWristTargetDistance = 24 - wristAngle;
+    downWristTargetDistance = 24 - wristAngle;
     SmartDashboard.putNumber("wrist angle", wristAngle);// 0 is a placeholder for an offset
     // This method will be called once per scheduler run
   }

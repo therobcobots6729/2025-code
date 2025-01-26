@@ -17,6 +17,11 @@ public class extendy extends SubsystemBase {
   public static TalonFX spoolMotor;
   public static DutyCycleEncoder extendyPosition; 
   public double elevatorHeight;
+  public double L4ExtensionTargetDistance;
+  public double L3ExtensionTargetDistance;
+  public double L2ExtensionTargetDistance;
+  public double L1ExtensionTargetDistance;
+  public double baseExtensionTargetDistance;
   /** Creates a new extendy. */
   public extendy() {
     spoolMotor = new TalonFX(Constants.extendy.spoolMotor);
@@ -28,6 +33,11 @@ public class extendy extends SubsystemBase {
   @Override
   public void periodic() {
     elevatorHeight = extendyPosition.get() * 1.79 * Math.PI;
+    L4ExtensionTargetDistance = 24 - elevatorHeight;//24 is a placeholder for the target height in inches
+    L3ExtensionTargetDistance = 24 - elevatorHeight;
+    L2ExtensionTargetDistance = 24 - elevatorHeight;
+    L1ExtensionTargetDistance = 24 - elevatorHeight;
+    baseExtensionTargetDistance = 24 - elevatorHeight;
     SmartDashboard.putNumber("elevator height", elevatorHeight);//# of rotations div or multiply by a factor for actual height
     // This method will be called once per scheduler run
   }
