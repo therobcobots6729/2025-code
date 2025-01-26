@@ -1,6 +1,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -84,12 +85,20 @@ public class RobotContainer {
         () -> in.getAsBoolean())
     );
            
+    //Auto Commands
+    NamedCommands.registerCommand("Coral Station Drive", new AutoStationSwerve(s_Swerve));
+    NamedCommands.registerCommand("Coral Reef Drive", new AutoReefSwerve(s_Swerve));
+    NamedCommands.registerCommand("L4 Extension", new L4Extension());
+    NamedCommands.registerCommand("Retract Elevator", new processorExtension());
+    NamedCommands.registerCommand("Intake", new Intake());
+    NamedCommands.registerCommand("Score", new outtake());
+    NamedCommands.registerCommand("Flip Forward", new flipDown());
+    NamedCommands.registerCommand("Flip Back", new flipBack());
    
                 
     // Configure the button bindings
     configureButtonBindings();
-    /*autoChooser = AutoBuilder.buildAutoChooser();
-    SmartDashboard.putData("Auto Chooser", autoChooser);*/
+    
     // Build an auto chooser. This will use Commands.none() as the default option.
     autoChooser = AutoBuilder.buildAutoChooser();
 
