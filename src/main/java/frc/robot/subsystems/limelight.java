@@ -25,11 +25,11 @@ public class limelight extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    NetworkTable table1 = NetworkTableInstance.getDefault().getTable("limelight1");
+    NetworkTable table1 = NetworkTableInstance.getDefault().getTable("limelight1");//forward limelight
     NetworkTableEntry tx1 = table1.getEntry("tx");
     NetworkTableEntry ty1 = table1.getEntry("ty");
     NetworkTableEntry tid1 = table1.getEntry("tid");
-    NetworkTable table2 = NetworkTableInstance.getDefault().getTable("limelight2");
+    NetworkTable table2 = NetworkTableInstance.getDefault().getTable("limelight2");//backward limelight
     NetworkTableEntry tx2 = table2.getEntry("tx");
     NetworkTableEntry ty2 = table2.getEntry("ty");
     NetworkTableEntry tid2 = table2.getEntry("tid");
@@ -37,8 +37,8 @@ public class limelight extends SubsystemBase {
     double targetOffsetAngle_Vertical2 = ty2.getDouble(0.0);
     double limelight1MountAngleDegrees = 0;// change
     double limelight1LensHeightInches = 18; // change 
-    double limelight2MountAngleDegrees = 0;
-    double limelight2LensHeightInches = 0;
+    double limelight2MountAngleDegrees = 0;// change
+    double limelight2LensHeightInches = 0;// change
     
     
     double reefHeightInches = 12.125;
@@ -48,7 +48,7 @@ public class limelight extends SubsystemBase {
     reefd = distanceFromLimelighttoReefInches;
 
     double stationHeightInches = 58.5;
-    double angleToStationDegrees = limelight2MountAngleDegrees +targetOffsetAngle_Vertical2;
+    double angleToStationDegrees = limelight2MountAngleDegrees + targetOffsetAngle_Vertical2;
     double angleToStationRadians = angleToStationDegrees *(3.14159/180);
     double distanceFromLimelighttoStationInches = (stationHeightInches-limelight2LensHeightInches)/Math.tan(angleToStationRadians);
     stationd = distanceFromLimelighttoStationInches;
