@@ -15,19 +15,20 @@ import frc.robot.Constants;
 public class extendy extends SubsystemBase {
   /* Motor declaration */
   public static TalonFX spoolMotor;
-  //public static DutyCycleEncoder extendyPosition; 
-  
+  public static DutyCycleEncoder extendyPosition; 
+  public double elevatorHeight;
   /** Creates a new extendy. */
   public extendy() {
     spoolMotor = new TalonFX(Constants.extendy.spoolMotor);
-    //extendyPosition = new DutyCycleEncoder(0);
+    extendyPosition = new DutyCycleEncoder(5);
     
     spoolMotor.setNeutralMode(NeutralModeValue.Brake);
   }
 
   @Override
   public void periodic() {
-   // SmartDashboard.putNumber("elevator height", extendyPosition.get());
+    elevatorHeight = extendyPosition.get() * 1.79 * Math.PI;
+    SmartDashboard.putNumber("elevator height", elevatorHeight);//# of rotations div or multiply by a factor for actual height
     // This method will be called once per scheduler run
   }
 }

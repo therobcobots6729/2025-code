@@ -31,14 +31,17 @@ public class runFlippy extends Command {
   @Override
   public void execute() {
     if(a.getAsBoolean()){
-      flippy.pivot.setControl(new DutyCycleOut(0));
+      flippy.leftPivot.setControl(new DutyCycleOut(.25));
+      flippy.rightPivot.setControl(new DutyCycleOut(0.25));
     }
     else if (b.getAsBoolean()){
-      flippy.pivot.setControl(new DutyCycleOut(0));
+      flippy.leftPivot.setControl(new DutyCycleOut(-.25));
+      flippy.rightPivot.setControl(new DutyCycleOut(-.25));
 
     }
     else {
-      flippy.pivot.setControl(new DutyCycleOut(0));
+      flippy.leftPivot.setControl(new DutyCycleOut(0));
+      flippy.rightPivot.setControl(new DutyCycleOut(0));
     }
   }
 

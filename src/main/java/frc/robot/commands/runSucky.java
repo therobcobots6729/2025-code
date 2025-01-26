@@ -29,12 +29,12 @@ public class runSucky extends Command {
   @Override
   public void execute() {
     if (a.getAsBoolean()){
-      sucky.leftMotor.set(0);
-      sucky.rightMotor.set(0);
+      sucky.leftMotor.set(-.25);
+      sucky.rightMotor.set(-.25);
     }
     else if (b.getAsBoolean()){
-      sucky.leftMotor.set(0);
-      sucky.rightMotor.set(0);
+      sucky.leftMotor.set(.25);
+      sucky.rightMotor.set(.25);
     }
     else{
       sucky.leftMotor.set(0);

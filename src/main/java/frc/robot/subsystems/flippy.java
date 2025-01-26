@@ -12,17 +12,22 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class flippy extends SubsystemBase {  
   /** Creates a new flippy. */
-  public static TalonFX pivot;
+  public static TalonFX leftPivot;
+  public static TalonFX rightPivot;
   public static DutyCycleEncoder wristEncoder;
+  public double wristAngle;
   public flippy() {
-    pivot = new TalonFX(20);
-    wristEncoder = new DutyCycleEncoder(5);
-    //pivot.setNeutralMode(NeutralModeValue.Brake);
+    leftPivot = new TalonFX(20);
+    rightPivot = new TalonFX(21);
+    wristEncoder = new DutyCycleEncoder(6);
+    leftPivot.setNeutralMode(NeutralModeValue.Brake);
+    rightPivot.setNeutralMode(NeutralModeValue.Brake);
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("wrist angle", wristEncoder.get());
+    wristAngle = (wristEncoder.get() / 360) - 0;
+    SmartDashboard.putNumber("wrist angle", wristAngle);// 0 is a placeholder for an offset
     // This method will be called once per scheduler run
   }
 }
