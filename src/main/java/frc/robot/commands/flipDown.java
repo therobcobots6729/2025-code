@@ -28,8 +28,8 @@ public class flipDown extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    flippy.leftPivot.setVoltage(pid.calculate(flippy.wristEncoder.get(), 225) + feedforward.calculate(flippy.wristAngle, 0));
-    flippy.rightPivot.setVoltage(pid.calculate(flippy.wristEncoder.get(), 225) + feedforward.calculate(flippy.wristAngle, 0));
+    flippy.leftPivot.setVoltage(pid.calculate(flippy.wristAngle, 225) + feedforward.calculate(flippy.wristAngle, 0));
+    flippy.rightPivot.setVoltage(pid.calculate(flippy.wristAngle, 225) + feedforward.calculate(flippy.wristAngle, 0));
   }
 
   // Called once the command ends or is interrupted.
