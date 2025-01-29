@@ -4,10 +4,14 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.controller.ElevatorFeedforward;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.extendy;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class L1Extension extends Command {
+  private PIDController pid;
   /** Creates a new L1Extension. */
   public L1Extension() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -19,7 +23,11 @@ public class L1Extension extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    pid = new PIDController(5, 0, 0);
+    ElevatorFeedforward feedforward = new ElevatorFeedforward(0, 0.11, 37.92, 0.01);
+    extendy.spoolMotor.setVoltage(pid.calculate(extendy.extendyPosition.get(), 20) + feedforward.calculate(20,30));
+  }
 
   // Called once the command ends or is interrupted.
   @Override
