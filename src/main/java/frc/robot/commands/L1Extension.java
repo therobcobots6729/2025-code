@@ -4,15 +4,12 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.math.controller.ElevatorFeedforward;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.extendy;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class L1Extension extends Command {
-  private PIDController pid;
-  private ElevatorFeedforward feedforward;
+
   /** Creates a new L1Extension. */
   public L1Extension() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -20,27 +17,25 @@ public class L1Extension extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    pid = new PIDController(5, 0, 0);
-    feedforward = new ElevatorFeedforward(0, 0.11, 37.92, 0.01);}
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     
-    extendy.spoolMotor.setVoltage(pid.calculate(extendy.extendyPosition.getDistance(), 20) + feedforward.calculate(0,0));
+    extendy.spoolMotor.setVoltage(extendy.elevatorPID.calculate(extendy.extendyPosition.getDistance(), 20) + extendy.elevatorFeedForward.calculate(0,0));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    extendy.spoolMotor.setVoltage(feedforward.calculate(0,0));
+    extendy.spoolMotor.setVoltage(extendy.elevatorFeedForward.calculate(0,0));
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(pid.calculate(extendy.extendyPosition.getDistance(), 20)) < .005){
+    if (Math.abs(extendy.elevatorPID.calculate(extendy.extendyPosition.getDistance(), 20)) < .005){
       return true;
     }
     else{
