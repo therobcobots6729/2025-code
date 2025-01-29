@@ -15,7 +15,7 @@ public class flippy extends SubsystemBase {
   public static TalonFX leftPivot;
   public static TalonFX rightPivot;
   public static DutyCycleEncoder wristEncoder;
-  public double wristAngle;
+  public static double wristAngle;
   public double backWristTargetDistance;
   public double upWristTargetDistance;
   public double downWristTargetDistance;

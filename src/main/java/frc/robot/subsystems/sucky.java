@@ -18,7 +18,7 @@ public class sucky extends SubsystemBase {
   public static SparkMax leftMotor;
   public static SparkMax rightMotor;
   private SparkMaxConfig suckyMotors;
-  public final DigitalInput beam;
+  public static DigitalInput beam;
   /** Creates a new sucky. */
   public sucky() {
     leftMotor = new SparkMax(13, MotorType.kBrushless);

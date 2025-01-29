@@ -7,7 +7,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
+
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -15,7 +16,7 @@ import frc.robot.Constants;
 public class extendy extends SubsystemBase {
   /* Motor declaration */
   public static TalonFX spoolMotor;
-  public static DutyCycleEncoder extendyPosition; 
+  public static Encoder extendyPosition; 
   public double elevatorHeight;
   public double L4ExtensionTargetDistance;
   public double L3ExtensionTargetDistance;
@@ -25,14 +26,15 @@ public class extendy extends SubsystemBase {
   /** Creates a new extendy. */
   public extendy() {
     spoolMotor = new TalonFX(Constants.extendy.spoolMotor);
-    extendyPosition = new DutyCycleEncoder(5);
+    extendyPosition = new Encoder(4,5, false, Encoder.EncodingType.k2X);
+    extendyPosition.setDistancePerPulse(1.79*Math.PI/2048);
     
     spoolMotor.setNeutralMode(NeutralModeValue.Brake);
   }
 
   @Override
   public void periodic() {
-    elevatorHeight = extendyPosition.get() * 1.79 * Math.PI;
+    elevatorHeight = extendyPosition.getDistance();
     L4ExtensionTargetDistance = 24 - elevatorHeight;//24 is a placeholder for the target height in inches
     L3ExtensionTargetDistance = 24 - elevatorHeight;
     L2ExtensionTargetDistance = 24 - elevatorHeight;
