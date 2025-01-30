@@ -10,7 +10,8 @@ import frc.robot.subsystems.sucky;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Intake extends Command {
   /** Creates a new Intake. */
-  public Intake() {
+  public Intake(sucky s_Sucky) {
+    addRequirements(s_Sucky);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

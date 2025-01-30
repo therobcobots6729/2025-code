@@ -96,8 +96,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("Coral Reef Drive", new AutoReefSwerve(s_Swerve));
     NamedCommands.registerCommand("L4 Extension", new L4Extension(e_Extendy));
     NamedCommands.registerCommand("Retract Elevator", new processorExtension(e_Extendy));
-    NamedCommands.registerCommand("Intake", new Intake());
-    NamedCommands.registerCommand("Score", new outtake());
+    NamedCommands.registerCommand("Intake", new Intake(s_Sucky));
+    NamedCommands.registerCommand("Score", new outtake(s_Sucky));
     NamedCommands.registerCommand("Flip Forward", new flipDown(f_Flippy));
     NamedCommands.registerCommand("Flip Back", new flipBack(f_Flippy));
    
@@ -123,6 +123,12 @@ public class RobotContainer {
   private void configureButtonBindings() {
     /* Driver Buttons */
     zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+    intake.whileTrue(
+      new Intake(s_Sucky)
+    );
+    outtake.whileTrue(
+      new outtake(s_Sucky)
+    );
 
  
    
