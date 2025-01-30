@@ -78,12 +78,8 @@ public class RobotContainer {
             () -> upExtendy.getAsBoolean(),
             () -> downExtendy.getAsBoolean()));
     
-    s_Sucky.setDefaultCommand(
-      new runSucky(
-        s_Sucky, 
-        () -> outtake.getAsBoolean(), 
-        () -> intake.getAsBoolean())
-    );
+
+  
     f_Flippy.setDefaultCommand(
       new runFlippy(
         f_Flippy, 
