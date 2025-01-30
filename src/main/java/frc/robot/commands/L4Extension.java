@@ -25,7 +25,7 @@ public class L4Extension extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    extendy.spoolMotor.setVoltage(extendy.elevatorPID.calculate(extendy.extendyPosition.getDistance(), 20) + extendy.elevatorFeedForward.calculate(20,30));
+    extendy.spoolMotor.setVoltage(extendy.elevatorPID.calculate(extendy.extendyPosition.getDistance(), 20) + extendy.elevatorFeedForward.calculate(0,0));
   }
 
   // Called once the command ends or is interrupted.
