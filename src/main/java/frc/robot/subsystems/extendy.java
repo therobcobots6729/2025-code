@@ -7,8 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.math.controller.ElevatorFeedforward;
-import edu.wpi.first.math.controller.PIDController;
+
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,8 +23,6 @@ public class extendy extends SubsystemBase {
   public double L2ExtensionTargetDistance;
   public double L1ExtensionTargetDistance;
   public double baseExtensionTargetDistance;
-  public static PIDController elevatorPID;
-  public static ElevatorFeedforward elevatorFeedForward;
   /** Creates a new extendy. */
   public extendy() {
     spoolMotor = new TalonFX(Constants.extendy.spoolMotor);
@@ -33,8 +30,6 @@ public class extendy extends SubsystemBase {
     extendyPosition.setDistancePerPulse(1.79*Math.PI/2048);
     
     spoolMotor.setNeutralMode(NeutralModeValue.Brake);
-    elevatorPID = new PIDController(5,0,0);
-    elevatorFeedForward = new ElevatorFeedforward(0, 0.11, 37.92, 0.01);
   }
 
   @Override

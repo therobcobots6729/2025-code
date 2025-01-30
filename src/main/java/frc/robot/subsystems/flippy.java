@@ -6,8 +6,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.math.controller.ArmFeedforward;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -22,16 +20,12 @@ public class flippy extends SubsystemBase {
   public double upWristTargetDistance;
   public double downWristTargetDistance;
   public double forwardWristTargetDistance;
-  public static PIDController wristPID;
-  public static ArmFeedforward wristFeedForward;
   public flippy() {
     leftPivot = new TalonFX(20);
     rightPivot = new TalonFX(21);
     wristEncoder = new DutyCycleEncoder(6);
     leftPivot.setNeutralMode(NeutralModeValue.Brake);
     rightPivot.setNeutralMode(NeutralModeValue.Brake);
-    wristFeedForward = new ArmFeedforward(0, .43, .45, .01);
-    wristPID = new PIDController(5, 0, 0);
   }
 
   @Override
