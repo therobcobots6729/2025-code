@@ -12,7 +12,8 @@ import frc.robot.subsystems.flippy;
 public class flipDown extends Command {
 
   /** Creates a new flipDown. */
-  public flipDown() {
+  public flipDown(flippy f_Flippy) {
+    addRequirements(f_Flippy);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

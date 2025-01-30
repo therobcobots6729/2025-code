@@ -27,6 +27,7 @@ public class RobotContainer {
  // private final SendableChooser<Command> autoChooser;
   /* Controllers */
   private final Joystick driver = new Joystick(0);
+  private final Joystick operator = new Joystick(1);
   private final SendableChooser<Command> autoChooser;
 
   /* Drive Controls */
@@ -47,7 +48,12 @@ public class RobotContainer {
   private final JoystickButton in = new JoystickButton(driver, XboxController.Button.kX.value);
  
   /* Operator Buttons */
-
+  private final JoystickButton L4 = new JoystickButton(operator, XboxController.Button.kY.value);
+  private final JoystickButton L3 = new JoystickButton(operator, XboxController.Button.kB.value);
+  private final JoystickButton L2 = new JoystickButton(operator, XboxController.Button.kX.value);
+  private final JoystickButton L1 = new JoystickButton(operator, XboxController.Button.kA.value);
+  private final JoystickButton Shelf = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
+  private final JoystickButton Barge = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
 
   /* Subsystems */
   private final Swerve s_Swerve = new Swerve();
@@ -88,12 +94,12 @@ public class RobotContainer {
     //Auto Commands
     NamedCommands.registerCommand("Coral Station Drive", new AutoStationSwerve(s_Swerve));
     NamedCommands.registerCommand("Coral Reef Drive", new AutoReefSwerve(s_Swerve));
-    NamedCommands.registerCommand("L4 Extension", new L4Extension());
-    NamedCommands.registerCommand("Retract Elevator", new processorExtension());
+    NamedCommands.registerCommand("L4 Extension", new L4Extension(e_Extendy));
+    NamedCommands.registerCommand("Retract Elevator", new processorExtension(e_Extendy));
     NamedCommands.registerCommand("Intake", new Intake());
     NamedCommands.registerCommand("Score", new outtake());
-    NamedCommands.registerCommand("Flip Forward", new flipDown());
-    NamedCommands.registerCommand("Flip Back", new flipBack());
+    NamedCommands.registerCommand("Flip Forward", new flipDown(f_Flippy));
+    NamedCommands.registerCommand("Flip Back", new flipBack(f_Flippy));
    
                 
     // Configure the button bindings
@@ -118,10 +124,35 @@ public class RobotContainer {
     /* Driver Buttons */
     zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
 
-   
+ 
    
     /* Operator Buttons */
-    
+    L1.onTrue(
+      new flipDown(f_Flippy)
+        .alongWith( new L1Extension(e_Extendy)));
+
+
+    L2.onTrue(
+      new flipDown(f_Flippy)
+        .alongWith( new L2Extension(e_Extendy)));
+
+    L3.onTrue(
+      new flipDown(f_Flippy)
+        .alongWith( new L3Extension(e_Extendy)));
+
+    L4.onTrue(
+       new flipDown(f_Flippy)
+        .alongWith( new L4Extension(e_Extendy)));
+        
+    Barge.onTrue(
+      new flipDown(f_Flippy)
+          .alongWith(new L4Extension(e_Extendy))
+            .andThen(new flipUp(f_Flippy))
+    );
+    Shelf.onTrue(
+      new processorExtension(e_Extendy)
+        .alongWith(new flipBack(f_Flippy))
+    );
   }
 
   /**

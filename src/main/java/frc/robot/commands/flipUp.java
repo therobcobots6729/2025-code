@@ -12,7 +12,8 @@ import frc.robot.subsystems.flippy;
 public class flipUp extends Command {
 
   /** Creates a new flipUp. */
-  public flipUp() {
+  public flipUp(flippy f_Flippy) {
+    addRequirements(f_Flippy);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
