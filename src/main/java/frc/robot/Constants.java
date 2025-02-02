@@ -27,8 +27,8 @@ public final class Constants {
             COTSTalonFXSwerveConstants.SDS.MK4.driveRatios.L2);
     
     /* Drivetrain Constants */
-    public static final double trackWidth = Units.inchesToMeters(24.75);
-    public static final double wheelBase = Units.inchesToMeters(22.5);
+    public static final double trackWidth = Units.inchesToMeters(26.5);
+    public static final double wheelBase = Units.inchesToMeters(20);
     public static final double wheelCircumference = chosenModule.wheelCircumference;
 
     /*
