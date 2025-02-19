@@ -46,6 +46,7 @@ public class RobotContainer {
   private final JoystickButton intake = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
   private final JoystickButton out = new JoystickButton(driver, XboxController.Button.kB.value);
   private final JoystickButton in = new JoystickButton(driver, XboxController.Button.kX.value);
+  public final  JoystickButton override = new JoystickButton(driver, XboxController.Button.kBack.value);
  
   /* Operator Buttons */
   private final JoystickButton L4 = new JoystickButton(operator, XboxController.Button.kY.value);
@@ -61,7 +62,7 @@ public class RobotContainer {
   private final flippy f_Flippy = new flippy();
   private final sucky s_Sucky = new sucky();
   private final limelight l_Limelight = new limelight(); // do not touch, is required for limelight to work even if it says not used
-
+   private final ScoringLog s_Log = new ScoringLog(()->override.getAsBoolean());
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     s_Swerve.setDefaultCommand(

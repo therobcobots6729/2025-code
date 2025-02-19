@@ -47,7 +47,11 @@ public class runFlippy extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    flippy.leftPivot.setVoltage(flippy.wristFeedForward.calculate(flippy.wristAngle, 0));
+    flippy.rightPivot.setVoltage(flippy.wristFeedForward.calculate(flippy.wristAngle, 0));
+
+  }
 
   // Returns true when the command should end.
   @Override

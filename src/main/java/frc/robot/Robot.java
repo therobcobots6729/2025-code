@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.ScoringLog;
 import frc.robot.subsystems.flippy;
 
 
@@ -22,7 +23,7 @@ public class Robot extends TimedRobot {
   public static final CTREConfigs ctreConfigs = new CTREConfigs();
 
   private Command m_autonomousCommand;
-
+  private ScoringLog scoringLog = new ScoringLog(null);
   private RobotContainer m_robotContainer;
 
   /**
@@ -31,6 +32,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    scoringLog.resetLog();
    // flippy.leftPivot.setVoltage(flippy.wristFeedForward.calculate(flippy.wristAngle, 0));
     //flippy.rightPivot.setVoltage(flippy.wristFeedForward.calculate(flippy.wristAngle, 0));
     // Instantiate our RobotContainer. This will perform all our button bindings,

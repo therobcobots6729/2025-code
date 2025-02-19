@@ -8,7 +8,10 @@ package frc.robot.commands;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+
+import frc.robot.subsystems.ScoringLog;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.extendy;
 import frc.robot.subsystems.limelight;
 
 
@@ -16,7 +19,9 @@ import frc.robot.subsystems.limelight;
 
 public class AutoReefSwerve extends Command {
   private Swerve s_Swerve;
-    
+  ScoringLog scoringLog = new ScoringLog(null);
+  extendy extendy = new extendy();
+  limelight Limelight = new limelight();
   
   public AutoReefSwerve(Swerve s_Swerve) {
     this.s_Swerve = s_Swerve;
@@ -36,10 +41,8 @@ public class AutoReefSwerve extends Command {
         /* Get Values, Deadband */
    
     /* Drive */ // change 4 and 7 before a real match*/
-        if ((limelight.ID1 == 6.0 || limelight.ID1 == 7.0 || limelight.ID1 == 8.0 || limelight.ID1 == 9.0 
-        || limelight.ID1 == 10.0 || limelight.ID1 == 11.0 ||limelight.ID1 == 17.0|| limelight.ID1 == 18.0 
-        || limelight.ID1 == 19.0 || limelight.ID1 == 20.0 || limelight.ID1 == 21.0 || limelight.ID1 == 22.0 )  
-        && (Math.abs(limelight.x1) > 1   || limelight.reefd > .5)) {
+        if ((limelight.ID1>=6 && limelight.ID1<= 11||limelight.ID1 >= 17.0 && limelight.ID1 <= 22.0 )  
+        && (Math.abs(limelight.x1) > 1   || limelight.reefd > .5) && scoringLog.isSlotAvailable(Limelight.getTagID(), extendy.getElevatorHeight())) {
                
          // contains all reef IDs
         //(limeligt.ID == 1.0 || limelight.ID == 2.0 || limelight.ID == 12.0 || limelight.ID == 13.0)     // all source IDs

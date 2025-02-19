@@ -18,7 +18,7 @@ public class extendy extends SubsystemBase {
   /* Motor declaration */
   public static TalonFX spoolMotor;
   public static Encoder extendyPosition; 
-  public double elevatorHeight;
+  public static  double elevatorHeight;
   public double L4ExtensionTargetDistance;
   public double L3ExtensionTargetDistance;
   public double L2ExtensionTargetDistance;
@@ -35,7 +35,10 @@ public class extendy extends SubsystemBase {
     elevatorFeedForward = new ElevatorFeedforward(0, 0.11, 37.92, 0.01);
     spoolMotor.setNeutralMode(NeutralModeValue.Brake);
   }
-
+  public  double getElevatorHeight(){
+    elevatorHeight = extendyPosition.getDistance();
+    return elevatorHeight;
+  }
   @Override
   public void periodic() {
     elevatorHeight = extendyPosition.getDistance();
