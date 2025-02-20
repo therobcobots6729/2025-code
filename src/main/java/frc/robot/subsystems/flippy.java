@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+import java.util.function.BooleanSupplier;
+
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -14,17 +16,29 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class flippy extends SubsystemBase {  
   /** Creates a new flippy. */
-  public static TalonFX leftPivot;
-  public static TalonFX rightPivot;
-  public static DutyCycleEncoder wristEncoder;
-  public static double wristAngle;
+  public TalonFX leftPivot;
+  public TalonFX rightPivot;
+  public DutyCycleEncoder wristEncoder;
+  public double wristAngle;
   public double backWristTargetDistance;
   public double upWristTargetDistance;
   public double downWristTargetDistance;
   public double forwardWristTargetDistance;
-  public static PIDController wristPID;
-  public static ArmFeedforward wristFeedForward;
-  public flippy() {
+  public PIDController wristPID;
+  public ArmFeedforward wristFeedForward;
+  private flippy f_Flippy;
+  private BooleanSupplier a,b,c,d,e,f;
+  private double OUT = 180;
+  private double IN = 0;
+  private double UP = 235;
+
+  public flippy(BooleanSupplier a, BooleanSupplier b, BooleanSupplier c, BooleanSupplier  d, BooleanSupplier e, BooleanSupplier f) {
+    this.a = a;
+    this.b = b;
+    this.c = c;
+    this.d = d;
+    this.e = e;
+    this.f = f;
     leftPivot = new TalonFX(18);
     rightPivot = new TalonFX(19);
     wristEncoder = new DutyCycleEncoder(6);
@@ -33,17 +47,29 @@ public class flippy extends SubsystemBase {
     wristFeedForward = new ArmFeedforward(0,.5, .45, .01);
     wristPID = new PIDController(5, 0, 0);
   }
-  public double getWristAngle() {
-    return flippy. wristAngle;
+  public boolean getWristAngle() {
+    if (f_Flippy.wristAngle<270 && f_Flippy.wristAngle > 90){
+      return true;
+    }
+    else return false;
+  }
+  public double determineTargeAngle() {
+    return a.getAsBoolean() ? OUT : 
+           (b.getAsBoolean() ? OUT : 
+           (c.getAsBoolean() ? OUT : 
+           (d.getAsBoolean() ? OUT : 
+           (e.getAsBoolean() ? IN :
+           (f.getAsBoolean() ? UP : 0)))));
+
+  }
+  public double WristPosition(){
+    wristAngle = (wristEncoder.get() / 360) - 0;
+    return wristAngle;
   }
   @Override
   public void periodic() {
-    wristAngle = (wristEncoder.get() / 360) - 0;
-    backWristTargetDistance = 24 - wristAngle; //24 is a placeholder for the target angle in degrees
-    forwardWristTargetDistance = 24 - wristAngle;
-    upWristTargetDistance = 24 - wristAngle;
-    downWristTargetDistance = 24 - wristAngle;
-    SmartDashboard.putNumber("wrist angle", wristAngle);// 0 is a placeholder for an offset
+   
+    SmartDashboard.putNumber("wrist angle", WristPosition());// 0 is a placeholder for an offset
     // This method will be called once per scheduler run
   }
 }

@@ -57,9 +57,25 @@ public class RobotContainer {
   private final JoystickButton Barge = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
 
   /* Subsystems */
-  private final Swerve s_Swerve = new Swerve();
-  private final extendy e_Extendy = new extendy();
-  private final flippy f_Flippy = new flippy();
+  private final Swerve s_Swerve = new Swerve(
+    
+  );
+  private final extendy e_Extendy = new extendy(
+    ()-> L1.getAsBoolean(),
+    ()-> L2.getAsBoolean(),
+    ()-> L3.getAsBoolean(),
+    ()-> L4.getAsBoolean(),
+    ()-> Shelf.getAsBoolean(),
+    ()-> Barge.getAsBoolean()
+  );
+  private final flippy f_Flippy = new flippy(
+    ()-> L1.getAsBoolean(),
+    ()-> L2.getAsBoolean(),
+    ()-> L3.getAsBoolean(),
+    ()-> L4.getAsBoolean(),
+    ()-> Shelf.getAsBoolean(),
+    ()-> Barge.getAsBoolean()
+  );
   private final sucky s_Sucky = new sucky();
   private final limelight l_Limelight = new limelight(); // do not touch, is required for limelight to work even if it says not used
    private final ScoringLog s_Log = new ScoringLog(()->override.getAsBoolean());
@@ -90,9 +106,9 @@ public class RobotContainer {
            
     //Auto Commands
     NamedCommands.registerCommand("Coral Station Drive", new AutoStationSwerve(s_Swerve));
-    NamedCommands.registerCommand("Coral Reef Drive", new AutoReefSwerve(s_Swerve));
-    NamedCommands.registerCommand("L4 Extension", new L4Extension(e_Extendy));
-    NamedCommands.registerCommand("Retract Elevator", new processorExtension(e_Extendy));
+    NamedCommands.registerCommand("Coral Reef Drive", new AutoReefSwerve(s_Swerve, e_Extendy, s_Log, l_Limelight));
+    NamedCommands.registerCommand("L4 Extension", new L4Extension(e_Extendy, f_Flippy));
+    NamedCommands.registerCommand("Retract Elevator", new processorExtension(e_Extendy, f_Flippy));
     NamedCommands.registerCommand("Intake", new Intake(s_Sucky));
     NamedCommands.registerCommand("Score", new outtake(s_Sucky));
     NamedCommands.registerCommand("Flip Forward", new flipDown(f_Flippy));
@@ -131,30 +147,30 @@ public class RobotContainer {
    
     /* Operator Buttons */
     L1.onTrue(
-      new flipDown(f_Flippy)
-        .alongWith( new L1Extension(e_Extendy)));
+      new FlipCommand(f_Flippy)
+        .alongWith( new ExtendToLevel(e_Extendy, f_Flippy)));
 
 
     L2.onTrue(
-      new flipDown(f_Flippy)
-        .alongWith( new L2Extension(e_Extendy)));
+      new FlipCommand(f_Flippy)
+        .alongWith( new ExtendToLevel(e_Extendy, f_Flippy)));
 
     L3.onTrue(
-      new flipDown(f_Flippy)
-        .alongWith( new L3Extension(e_Extendy)));
+      new FlipCommand(f_Flippy)
+        .alongWith( new ExtendToLevel(e_Extendy, f_Flippy)));
 
     L4.onTrue(
-       new flipDown(f_Flippy)
-        .alongWith( new L4Extension(e_Extendy)));
+       new FlipCommand(f_Flippy)
+        .alongWith( new ExtendToLevel(e_Extendy, f_Flippy)));
         
     Barge.onTrue(
-      new flipDown(f_Flippy)
-          .alongWith(new L4Extension(e_Extendy))
-            .andThen(new flipUp(f_Flippy))
+      new FlipCommand(f_Flippy)
+          .alongWith(new ExtendToLevel(e_Extendy, f_Flippy))
+            
     );
     Shelf.onTrue(
-      new processorExtension(e_Extendy)
-        .alongWith(new flipBack(f_Flippy))
+      new ExtendToLevel(e_Extendy, f_Flippy)
+        .alongWith(new FlipCommand(f_Flippy))
     );
   }
 

@@ -36,7 +36,7 @@ public double ID2;
   public limelight() {}
 
   /** Gets the detected AprilTag ID from the forward Limelight */
-  public double getTagID() {
+  public  double getTagID() {
       return tid1.getDouble(0.0);
   }
 

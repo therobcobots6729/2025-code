@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.BooleanSupplier;
+
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -12,7 +14,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+
 
 public class extendy extends SubsystemBase {
   /* Motor declaration */
@@ -26,8 +28,21 @@ public class extendy extends SubsystemBase {
   public double baseExtensionTargetDistance;
   public PIDController elevatorPID;
   public ElevatorFeedforward elevatorFeedForward;
+  private BooleanSupplier a,b,c,d,e,f;
+  private static final double LEVEL_1_HEIGHT = 10;
+  private static final double LEVEL_2_HEIGHT = 20;
+  private static final double LEVEL_3_HEIGHT = 30;
+  private static final double LEVEL_4_HEIGHT = 40;
+  private static final double BASE_HEIGHT = 15;
   /** Creates a new extendy. */
-  public extendy() {
+  public extendy(BooleanSupplier a, BooleanSupplier b, BooleanSupplier c, BooleanSupplier  d, BooleanSupplier e, BooleanSupplier f) {
+    this.a = a;
+    this.b = b;
+    this.c = c;
+    this.d = d;
+    this.e = e;
+    this.f = f;
+
     spoolMotor = new TalonFX(22);
     //extendyPosition = new Encoder(9,5, false, Encoder.EncodingType.k2X);
    // extendyPosition.setDistancePerPulse(1.79*Math.PI/2048);
@@ -35,20 +50,25 @@ public class extendy extends SubsystemBase {
     elevatorFeedForward = new ElevatorFeedforward(0, 0.15, 37.92, 0.01);
     spoolMotor.setNeutralMode(NeutralModeValue.Brake);
   }
+ 
   public  double getElevatorHeight(){
    // elevatorHeight = extendyPosition.getDistance();
    // return elevatorHeight;
    return 0.0;
   }
+  public double determineTargetHeight() {
+    return a.getAsBoolean() ? LEVEL_1_HEIGHT : 
+           (b.getAsBoolean() ? LEVEL_2_HEIGHT : 
+           (c.getAsBoolean() ? LEVEL_3_HEIGHT : 
+           (d.getAsBoolean() ? LEVEL_4_HEIGHT : 
+           (e.getAsBoolean() ? BASE_HEIGHT :
+           (f.getAsBoolean() ? LEVEL_4_HEIGHT : 0)))));
+}
+
   @Override
   public void periodic() {
-    //elevatorHeight = extendyPosition.getDistance();
-    //L4ExtensionTargetDistance = 24 - elevatorHeight;//24 is a placeholder for the target height in inches
-    //L3ExtensionTargetDistance = 24 - elevatorHeight;
-    //L2ExtensionTargetDistance = 24 - elevatorHeight;
-    //L1ExtensionTargetDistance = 24 - elevatorHeight;
-   // baseExtensionTargetDistance = 24 - elevatorHeight;
-    //SmartDashboard.putNumber("elevator height", elevatorHeight);//# of rotations div or multiply by a factor for actual height
+ 
+    //SmartDashboard.putNumber("elevator height", getElevatorHeight());//# of rotations div or multiply by a factor for actual height
     // This method will be called once per scheduler run
   }
 }

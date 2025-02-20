@@ -11,11 +11,13 @@ import frc.robot.subsystems.flippy;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class flipBack extends Command {
-  private final extendy e_Extendy;
+  private extendy e_Extendy;
+  private flippy f_Flippy;
   /** Creates a new flipBack. */
   public flipBack(flippy f_Flippy, extendy e_Extendy) {
     addRequirements(f_Flippy);
     this.e_Extendy = e_Extendy;
+    this.f_Flippy = f_Flippy;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -29,26 +31,26 @@ public class flipBack extends Command {
   @Override
   public void execute() {
     if (e_Extendy.extendyPosition.getDistance() < 10){
-      flippy.leftPivot.setVoltage(flippy.wristPID.calculate(flippy.wristAngle, 45) + flippy.wristFeedForward.calculate(flippy.wristAngle, 0));
-      flippy.rightPivot.setVoltage(flippy.wristPID.calculate(flippy.wristAngle, 45) + flippy.wristFeedForward.calculate(flippy.wristAngle, 0));
+      f_Flippy.leftPivot.setVoltage(f_Flippy.wristPID.calculate(f_Flippy.wristAngle, 45) + f_Flippy.wristFeedForward.calculate(f_Flippy.wristAngle, 0));
+      f_Flippy.rightPivot.setVoltage(f_Flippy.wristPID.calculate(f_Flippy.wristAngle, 45) + f_Flippy.wristFeedForward.calculate(f_Flippy.wristAngle, 0));
     }
     else{
-      flippy.leftPivot.setVoltage(flippy.wristFeedForward.calculate(flippy.wristAngle, 0));
-      flippy.rightPivot.setVoltage(flippy.wristFeedForward.calculate(flippy.wristAngle, 0));
+      f_Flippy.leftPivot.setVoltage(f_Flippy.wristFeedForward.calculate(f_Flippy.wristAngle, 0));
+      f_Flippy.rightPivot.setVoltage(f_Flippy.wristFeedForward.calculate(f_Flippy.wristAngle, 0));
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    flippy.leftPivot.setVoltage(flippy.wristFeedForward.calculate(flippy.wristAngle, 0));
-    flippy.rightPivot.setVoltage(flippy.wristFeedForward.calculate(flippy.wristAngle, 0));
+    f_Flippy.leftPivot.setVoltage(f_Flippy.wristFeedForward.calculate(f_Flippy.wristAngle, 0));
+    f_Flippy.rightPivot.setVoltage(f_Flippy.wristFeedForward.calculate(f_Flippy.wristAngle, 0));
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(flippy.wristPID.calculate(flippy.wristEncoder.get(), 45)) <.005){
+    if (Math.abs(f_Flippy.wristPID.calculate(f_Flippy.wristEncoder.get(), 45)) <.005){
       return true;
     }
     else{

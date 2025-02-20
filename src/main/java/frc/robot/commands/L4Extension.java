@@ -12,10 +12,12 @@ import frc.robot.subsystems.flippy;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class L4Extension extends Command {
   private final extendy e_Extendy;
+  private flippy f_Flippy;
   /** Creates a new fullExtension. */
-  public L4Extension(extendy e_Extendy) {
+  public L4Extension(extendy e_Extendy, flippy f_Flippy) {
     addRequirements(e_Extendy);
     this.e_Extendy =  e_Extendy;
+    this.f_Flippy  = f_Flippy;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -29,7 +31,7 @@ public class L4Extension extends Command {
   @Override
   public void execute() {
 
-    if (flippy.wristAngle< 270 && flippy.wristAngle > 90){
+    if (f_Flippy.getWristAngle()){
     
       e_Extendy.spoolMotor.setVoltage(e_Extendy.elevatorPID.calculate(e_Extendy.extendyPosition.getDistance(), 20) + e_Extendy.elevatorFeedForward.calculate(0,0));
       }

@@ -5,6 +5,8 @@
 package frc.robot.commands;
 
 
+
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
@@ -19,13 +21,14 @@ import frc.robot.subsystems.limelight;
 
 public class AutoReefSwerve extends Command {
   private Swerve s_Swerve;
-  ScoringLog scoringLog = new ScoringLog(null);
-  extendy extendy = new extendy();
-  limelight Limelight = new limelight();
+  private ScoringLog sLog;
+  private extendy e_Extendy;
+  private limelight l_Limelight;
   
-  public AutoReefSwerve(Swerve s_Swerve) {
+  public AutoReefSwerve(Swerve s_Swerve, extendy e_Extendy, ScoringLog sLog, limelight l_Limelight) {
     this.s_Swerve = s_Swerve;
-    addRequirements(s_Swerve);
+    this.e_Extendy = e_Extendy;
+    addRequirements(s_Swerve, e_Extendy, sLog, l_Limelight);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -42,7 +45,7 @@ public class AutoReefSwerve extends Command {
    
     /* Drive */ // change 4 and 7 before a real match*/
         if ((limelight.ID1>=6 && limelight.ID1<= 11||limelight.ID1 >= 17.0 && limelight.ID1 <= 22.0 )  
-        && (Math.abs(limelight.x1) > 1   || limelight.reefd > .5) && scoringLog.isSlotAvailable(Limelight.getTagID(), extendy.getElevatorHeight())) {
+        && (Math.abs(limelight.x1) > 1   || limelight.reefd > .5) && sLog.isSlotAvailable(l_Limelight.getTagID(), e_Extendy.getElevatorHeight())) {
                
          // contains all reef IDs
         //(limeligt.ID == 1.0 || limelight.ID == 2.0 || limelight.ID == 12.0 || limelight.ID == 13.0)     // all source IDs
