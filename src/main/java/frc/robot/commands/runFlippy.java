@@ -7,6 +7,7 @@ package frc.robot.commands;
 import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.VoltageOut;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.flippy;
@@ -15,9 +16,11 @@ import frc.robot.subsystems.flippy;
 public class runFlippy extends Command {
   public BooleanSupplier a;
   public BooleanSupplier b;
+  private final flippy f_Flippy;
   /** Creates a new runFlippy. */
   public runFlippy(flippy f_Flippy, BooleanSupplier a, BooleanSupplier b) {
     addRequirements(f_Flippy);
+    this.f_Flippy = f_Flippy;
     this.a = a;
     this.b =b;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -30,32 +33,23 @@ public class runFlippy extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(a.getAsBoolean()){
-      flippy.leftPivot.setControl(new DutyCycleOut(.25));
-      flippy.rightPivot.setControl(new DutyCycleOut(0.25));
-    }
-    else if (b.getAsBoolean()){
-      flippy.leftPivot.setControl(new DutyCycleOut(-.25));
-      flippy.rightPivot.setControl(new DutyCycleOut(-.25));
-
-    }
-    else {
-      flippy.leftPivot.setControl(new DutyCycleOut(0));
-      flippy.rightPivot.setControl(new DutyCycleOut(0));
-    }
+    double power = a.getAsBoolean() ? -0.25 : (b.getAsBoolean() ? 0.25 : 0);
+    f_Flippy.leftPivot.setControl(new DutyCycleOut(power));
+    f_Flippy.rightPivot.setControl(new DutyCycleOut(power));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    flippy.leftPivot.setVoltage(flippy.wristFeedForward.calculate(flippy.wristAngle, 0));
-    flippy.rightPivot.setVoltage(flippy.wristFeedForward.calculate(flippy.wristAngle, 0));
+    double holdVoltage = flippy.wristFeedForward.calculate(0, 0);
+    f_Flippy.leftPivot.setControl(new VoltageOut(holdVoltage));
+    f_Flippy.rightPivot.setControl(new VoltageOut(holdVoltage));
 
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return !a.getAsBoolean() && !b.getAsBoolean();
   }
 }

@@ -11,10 +11,11 @@ import frc.robot.subsystems.flippy;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class L4Extension extends Command {
-
+  private final extendy e_Extendy;
   /** Creates a new fullExtension. */
   public L4Extension(extendy e_Extendy) {
     addRequirements(e_Extendy);
+    this.e_Extendy =  e_Extendy;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -30,23 +31,23 @@ public class L4Extension extends Command {
 
     if (flippy.wristAngle< 270 && flippy.wristAngle > 90){
     
-      extendy.spoolMotor.setVoltage(extendy.elevatorPID.calculate(extendy.extendyPosition.getDistance(), 20) + extendy.elevatorFeedForward.calculate(0,0));
+      e_Extendy.spoolMotor.setVoltage(e_Extendy.elevatorPID.calculate(e_Extendy.extendyPosition.getDistance(), 20) + e_Extendy.elevatorFeedForward.calculate(0,0));
       }
       else {
-        extendy.spoolMotor.setVoltage(extendy.elevatorFeedForward.calculate(0,0));
+        e_Extendy.spoolMotor.setVoltage(e_Extendy.elevatorFeedForward.calculate(0,0));
       }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    extendy.spoolMotor.setVoltage(extendy.elevatorFeedForward.calculate(0,0));
+    e_Extendy.spoolMotor.setVoltage(e_Extendy.elevatorFeedForward.calculate(0,0));
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(extendy.elevatorPID.calculate(extendy.extendyPosition.getDistance(), 20)) < .005){
+    if (Math.abs(e_Extendy.elevatorPID.calculate(e_Extendy.extendyPosition.getDistance(), 20)) < .005){
       return true;
     }
     else{

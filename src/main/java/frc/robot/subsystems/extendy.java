@@ -16,38 +16,39 @@ import frc.robot.Constants;
 
 public class extendy extends SubsystemBase {
   /* Motor declaration */
-  public static TalonFX spoolMotor;
-  public static Encoder extendyPosition; 
-  public static  double elevatorHeight;
+  public TalonFX spoolMotor;
+  public Encoder extendyPosition; 
+  public double elevatorHeight;
   public double L4ExtensionTargetDistance;
   public double L3ExtensionTargetDistance;
   public double L2ExtensionTargetDistance;
   public double L1ExtensionTargetDistance;
   public double baseExtensionTargetDistance;
-  public static PIDController elevatorPID;
-  public static ElevatorFeedforward elevatorFeedForward;
+  public PIDController elevatorPID;
+  public ElevatorFeedforward elevatorFeedForward;
   /** Creates a new extendy. */
   public extendy() {
-    spoolMotor = new TalonFX(Constants.extendy.spoolMotor);
-    extendyPosition = new Encoder(4,5, false, Encoder.EncodingType.k2X);
-    extendyPosition.setDistancePerPulse(1.79*Math.PI/2048);
+    spoolMotor = new TalonFX(22);
+    //extendyPosition = new Encoder(9,5, false, Encoder.EncodingType.k2X);
+   // extendyPosition.setDistancePerPulse(1.79*Math.PI/2048);
     elevatorPID = new PIDController(5, 0, 0);
-    elevatorFeedForward = new ElevatorFeedforward(0, 0.11, 37.92, 0.01);
+    elevatorFeedForward = new ElevatorFeedforward(0, 0.15, 37.92, 0.01);
     spoolMotor.setNeutralMode(NeutralModeValue.Brake);
   }
   public  double getElevatorHeight(){
-    elevatorHeight = extendyPosition.getDistance();
-    return elevatorHeight;
+   // elevatorHeight = extendyPosition.getDistance();
+   // return elevatorHeight;
+   return 0.0;
   }
   @Override
   public void periodic() {
-    elevatorHeight = extendyPosition.getDistance();
-    L4ExtensionTargetDistance = 24 - elevatorHeight;//24 is a placeholder for the target height in inches
-    L3ExtensionTargetDistance = 24 - elevatorHeight;
-    L2ExtensionTargetDistance = 24 - elevatorHeight;
-    L1ExtensionTargetDistance = 24 - elevatorHeight;
-    baseExtensionTargetDistance = 24 - elevatorHeight;
-    SmartDashboard.putNumber("elevator height", elevatorHeight);//# of rotations div or multiply by a factor for actual height
+    //elevatorHeight = extendyPosition.getDistance();
+    //L4ExtensionTargetDistance = 24 - elevatorHeight;//24 is a placeholder for the target height in inches
+    //L3ExtensionTargetDistance = 24 - elevatorHeight;
+    //L2ExtensionTargetDistance = 24 - elevatorHeight;
+    //L1ExtensionTargetDistance = 24 - elevatorHeight;
+   // baseExtensionTargetDistance = 24 - elevatorHeight;
+    //SmartDashboard.putNumber("elevator height", elevatorHeight);//# of rotations div or multiply by a factor for actual height
     // This method will be called once per scheduler run
   }
 }

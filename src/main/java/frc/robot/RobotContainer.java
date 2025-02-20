@@ -96,7 +96,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Intake", new Intake(s_Sucky));
     NamedCommands.registerCommand("Score", new outtake(s_Sucky));
     NamedCommands.registerCommand("Flip Forward", new flipDown(f_Flippy));
-    NamedCommands.registerCommand("Flip Back", new flipBack(f_Flippy));
+    NamedCommands.registerCommand("Flip Back", new flipBack(f_Flippy, e_Extendy));
    
                 
     // Configure the button bindings

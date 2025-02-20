@@ -7,6 +7,7 @@ package frc.robot.commands;
 import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.VoltageOut;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.extendy;
@@ -15,11 +16,12 @@ import frc.robot.subsystems.extendy;
 public class runExtendy extends Command {
   public BooleanSupplier a;
   public BooleanSupplier b;
-
+  private final extendy e_Extendy;
   /** Creates a new runExtendy. */
   public runExtendy(extendy e_Extendy, BooleanSupplier a, BooleanSupplier b) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(e_Extendy);
+    this.e_Extendy =  e_Extendy;
     this.a = a;
     this.b = b;
   }
@@ -31,24 +33,22 @@ public class runExtendy extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (a.getAsBoolean()) {
-      extendy.spoolMotor.setControl(new DutyCycleOut(0.5));
-    }
-    else if (b.getAsBoolean()) {
-      extendy.spoolMotor.setControl(new DutyCycleOut(-0.5));
-    }
-    else {
-      extendy.spoolMotor.setControl(new DutyCycleOut(0));
-    }
+    double power = a.getAsBoolean() ? -1 : (b.getAsBoolean() ? 1 : 0);
+      e_Extendy.spoolMotor.setControl(new DutyCycleOut(power));
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    double holdVoltage = e_Extendy.elevatorFeedForward.calculate(0, 0);
+    e_Extendy.spoolMotor.setControl(new VoltageOut(-holdVoltage));
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    
+    return !a.getAsBoolean() && !b.getAsBoolean();
   }
 }

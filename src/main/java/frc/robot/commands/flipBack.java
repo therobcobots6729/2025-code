@@ -11,10 +11,11 @@ import frc.robot.subsystems.flippy;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class flipBack extends Command {
-
+  private final extendy e_Extendy;
   /** Creates a new flipBack. */
-  public flipBack(flippy f_Flippy) {
+  public flipBack(flippy f_Flippy, extendy e_Extendy) {
     addRequirements(f_Flippy);
+    this.e_Extendy = e_Extendy;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -27,7 +28,7 @@ public class flipBack extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (extendy.extendyPosition.getDistance() < 10){
+    if (e_Extendy.extendyPosition.getDistance() < 10){
       flippy.leftPivot.setVoltage(flippy.wristPID.calculate(flippy.wristAngle, 45) + flippy.wristFeedForward.calculate(flippy.wristAngle, 0));
       flippy.rightPivot.setVoltage(flippy.wristPID.calculate(flippy.wristAngle, 45) + flippy.wristFeedForward.calculate(flippy.wristAngle, 0));
     }

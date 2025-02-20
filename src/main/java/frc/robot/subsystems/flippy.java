@@ -25,15 +25,17 @@ public class flippy extends SubsystemBase {
   public static PIDController wristPID;
   public static ArmFeedforward wristFeedForward;
   public flippy() {
-    leftPivot = new TalonFX(20);
-    rightPivot = new TalonFX(21);
+    leftPivot = new TalonFX(18);
+    rightPivot = new TalonFX(19);
     wristEncoder = new DutyCycleEncoder(6);
     leftPivot.setNeutralMode(NeutralModeValue.Brake);
     rightPivot.setNeutralMode(NeutralModeValue.Brake);
-    wristFeedForward = new ArmFeedforward(0, .43, .45, .01);
+    wristFeedForward = new ArmFeedforward(0,.5, .45, .01);
     wristPID = new PIDController(5, 0, 0);
   }
-
+  public double getWristAngle() {
+    return flippy. wristAngle;
+  }
   @Override
   public void periodic() {
     wristAngle = (wristEncoder.get() / 360) - 0;
