@@ -41,18 +41,15 @@ public class flippy extends SubsystemBase {
     this.f = f;
     leftPivot = new TalonFX(18);
     rightPivot = new TalonFX(19);
-    wristEncoder = new DutyCycleEncoder(6);
+    leftPivot.setInverted(true);
+    rightPivot.setInverted(true);
+    wristEncoder = new DutyCycleEncoder(2);
     leftPivot.setNeutralMode(NeutralModeValue.Brake);
     rightPivot.setNeutralMode(NeutralModeValue.Brake);
-    wristFeedForward = new ArmFeedforward(0,.5, .45, .01);
-    wristPID = new PIDController(5, 0, 0);
+    wristFeedForward = new ArmFeedforward(0,.32, .45, .01);
+    wristPID = new PIDController(1, 0, 0);
   }
-  public boolean getWristAngle() {
-    if (f_Flippy.wristAngle<270 && f_Flippy.wristAngle > 90){
-      return true;
-    }
-    else return false;
-  }
+  
   public double determineTargeAngle() {
     return a.getAsBoolean() ? OUT : 
            (b.getAsBoolean() ? OUT : 
@@ -63,13 +60,13 @@ public class flippy extends SubsystemBase {
 
   }
   public double WristPosition(){
-    wristAngle = (wristEncoder.get() / 360) - 0;
-    return wristAngle;
+    wristAngle = (wristEncoder.get() * 360) - 281;
+    return Math.toRadians(wristAngle);
   }
   @Override
   public void periodic() {
    
-    SmartDashboard.putNumber("wrist angle", WristPosition());// 0 is a placeholder for an offset
+    SmartDashboard.putNumber("wrist angle", wristAngle);// 0 is a placeholder for an offset
     // This method will be called once per scheduler run
   }
 }

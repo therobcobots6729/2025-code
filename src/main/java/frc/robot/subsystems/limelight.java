@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class limelight extends SubsystemBase { // Capitalized class name (follows Java conventions)
@@ -69,5 +70,8 @@ public double ID2;
       x2 = tx2.getDouble(0.0);
       y2 = ty2.getDouble(0.0);
       ID2 = tid2.getDouble(0.0);
+      SmartDashboard.putNumber("reefx", x1);
+      //SmartDashboard.putNumber("reefx", x2);
+    
   }
 }

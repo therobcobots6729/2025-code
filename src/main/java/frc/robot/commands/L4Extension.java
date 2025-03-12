@@ -13,6 +13,8 @@ import frc.robot.subsystems.flippy;
 public class L4Extension extends Command {
   private final extendy e_Extendy;
   private flippy f_Flippy;
+  public double feedForward;
+  public double pid;
   /** Creates a new fullExtension. */
   public L4Extension(extendy e_Extendy, flippy f_Flippy) {
     addRequirements(e_Extendy);
@@ -30,20 +32,27 @@ public class L4Extension extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if( e_Extendy.getElevatorHeight()< 27.75){
+      pid = e_Extendy.elevatorPID.calculate(e_Extendy.extendyPosition.getDistance(), 27.75);
+     
+   }
+   else{
+     pid = e_Extendy.downPID.calculate(e_Extendy.extendyPosition.getDistance(),27.75);
+     
+   }
+   feedForward = e_Extendy.elevatorFeedForward.calculate(0,0);
 
-    if (f_Flippy.getWristAngle()){
-    
-      e_Extendy.spoolMotor.setVoltage(e_Extendy.elevatorPID.calculate(e_Extendy.extendyPosition.getDistance(), 20) + e_Extendy.elevatorFeedForward.calculate(0,0));
-      }
-      else {
-        e_Extendy.spoolMotor.setVoltage(e_Extendy.elevatorFeedForward.calculate(0,0));
-      }
+   e_Extendy.spoolMotor.setVoltage(-pid + -feedForward);
+   e_Extendy.spool2.setVoltage(pid + feedForward);
+     
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    e_Extendy.spoolMotor.setVoltage(e_Extendy.elevatorFeedForward.calculate(0,0));
+    e_Extendy.spoolMotor.setVoltage(-e_Extendy.elevatorFeedForward.calculate(0,0));
+    e_Extendy.spool2.setVoltage(e_Extendy.elevatorFeedForward.calculate(0,0));
+
   }
 
   // Returns true when the command should end.

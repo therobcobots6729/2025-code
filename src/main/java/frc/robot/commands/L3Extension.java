@@ -10,13 +10,15 @@ import frc.robot.subsystems.extendy;
 import frc.robot.subsystems.flippy;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class processorExtension extends Command {
+public class L3Extension extends Command {
   private final extendy e_Extendy;
   private flippy f_Flippy;
-  /** Creates a new processorExtension. */
-  public processorExtension(extendy e_Extendy, flippy f_Flippy) {
+  public double feedForward;
+  public double pid;
+  /** Creates a new fullExtension. */
+  public L3Extension(extendy e_Extendy, flippy f_Flippy) {
     addRequirements(e_Extendy);
-    this.e_Extendy = e_Extendy;
+    this.e_Extendy =  e_Extendy;
     this.f_Flippy  = f_Flippy;
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -24,16 +26,25 @@ public class processorExtension extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-  
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if( e_Extendy.getElevatorHeight()< 14.88){
+      pid = e_Extendy.elevatorPID.calculate(e_Extendy.extendyPosition.getDistance(), 14.88);
+     
+   }
+   else{
+     pid = e_Extendy.downPID.calculate(e_Extendy.extendyPosition.getDistance(),14.88);
+     
+   }
+   feedForward = e_Extendy.elevatorFeedForward.calculate(0,0);
 
-    e_Extendy.spoolMotor.setVoltage(-e_Extendy.downPID.calculate(e_Extendy.extendyPosition.getDistance(), 10) + -e_Extendy.elevatorFeedForward.calculate(0,0));
-    e_Extendy.spool2.setVoltage(e_Extendy.downPID.calculate(e_Extendy.extendyPosition.getDistance(), 10) + e_Extendy.elevatorFeedForward.calculate(0,0));
-
+   e_Extendy.spoolMotor.setVoltage(-pid + -feedForward);
+   e_Extendy.spool2.setVoltage(pid + feedForward);
+     
   }
 
   // Called once the command ends or is interrupted.
@@ -41,12 +52,13 @@ public class processorExtension extends Command {
   public void end(boolean interrupted) {
     e_Extendy.spoolMotor.setVoltage(-e_Extendy.elevatorFeedForward.calculate(0,0));
     e_Extendy.spool2.setVoltage(e_Extendy.elevatorFeedForward.calculate(0,0));
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(e_Extendy.elevatorPID.calculate(e_Extendy.extendyPosition.getDistance(), 10)) < .005){
+    if (Math.abs(e_Extendy.elevatorPID.calculate(e_Extendy.extendyPosition.getDistance(), 20)) < .005){
       return true;
     }
     else{

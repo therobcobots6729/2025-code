@@ -22,8 +22,8 @@ public class outtake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    sucky.leftMotor.set(.25);
-    sucky.rightMotor.set(.25);
+    sucky.leftMotor.set(.5);
+    sucky.rightMotor.set(.5);
   }
 
   // Called once the command ends or is interrupted.

@@ -22,10 +22,15 @@ public class sucky extends SubsystemBase {
   /** Creates a new sucky. */
   public sucky() {
     suckyMotors = new SparkMaxConfig();
-    leftMotor = new SparkMax(13, MotorType.kBrushless);
-    rightMotor = new SparkMax(14, MotorType.kBrushless);
+    leftMotor = new SparkMax(15, MotorType.kBrushless);
+    rightMotor = new SparkMax(25 
+    
+     
+    
+    
+    , MotorType.kBrushless);
     configSuckyMotors();
-    beam = new DigitalInput(3);
+    beam = new DigitalInput(0);
     
    
   }

@@ -41,7 +41,7 @@ public class runFlippy extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    double holdVoltage = f_Flippy.wristFeedForward.calculate(0, 0);
+    double holdVoltage = f_Flippy.wristFeedForward.calculate(3.14, 0);
     f_Flippy.leftPivot.setControl(new VoltageOut(holdVoltage));
     f_Flippy.rightPivot.setControl(new VoltageOut(holdVoltage));
 
