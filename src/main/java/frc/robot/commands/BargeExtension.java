@@ -10,11 +10,13 @@ import frc.robot.subsystems.extendy;
 import frc.robot.subsystems.flippy;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class L1Extension extends Command {
+public class BargeExtension extends Command {
   private final extendy e_Extendy;
   private flippy f_Flippy;
+  public double feedForward;
+  public double pid;
   /** Creates a new fullExtension. */
-  public L1Extension(extendy e_Extendy, flippy f_Flippy) {
+  public BargeExtension(extendy e_Extendy, flippy f_Flippy) {
     addRequirements(e_Extendy);
     this.e_Extendy =  e_Extendy;
     this.f_Flippy  = f_Flippy;
@@ -30,26 +32,33 @@ public class L1Extension extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if( e_Extendy.getElevatorHeight()< 29.5){
+      pid = e_Extendy.elevatorPID.calculate(e_Extendy.extendyPosition.getDistance(), 29.5);
+     
+   }
+   else{
+     pid = e_Extendy.downPID.calculate(e_Extendy.extendyPosition.getDistance(),29.5);
+     
+   }
+   feedForward = e_Extendy.elevatorFeedForward.calculate(0,0);
 
-    
-      e_Extendy.spoolMotor.setVoltage(-e_Extendy.downPID.calculate(e_Extendy.extendyPosition.getDistance(), 0) + -e_Extendy.elevatorFeedForward.calculate(0,0));
-      e_Extendy.spool2.setVoltage(e_Extendy.downPID.calculate(e_Extendy.extendyPosition.getDistance(), 0) + e_Extendy.elevatorFeedForward.calculate(0,0));
-
+   e_Extendy.spoolMotor.setVoltage(-pid + -feedForward);
+   e_Extendy.spool2.setVoltage(pid + feedForward);
      
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    e_Extendy.spoolMotor.setVoltage(0);
-    e_Extendy.spool2.setVoltage(0);
+    e_Extendy.spoolMotor.setVoltage(-e_Extendy.elevatorFeedForward.calculate(0,0));
+    e_Extendy.spool2.setVoltage(e_Extendy.elevatorFeedForward.calculate(0,0));
 
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(0-e_Extendy.getElevatorHeight())<2){
+    if (Math.abs(e_Extendy.elevatorPID.calculate(e_Extendy.extendyPosition.getDistance(), 20)) < .005){
       return true;
     }
     else{

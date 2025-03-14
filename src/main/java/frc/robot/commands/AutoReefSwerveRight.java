@@ -1,4 +1,5 @@
-// Copyright (c) FIRST and other WPILib contributors.
+
+    // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
@@ -19,14 +20,13 @@ import frc.robot.subsystems.limelight;
 
 
 
-public class AutoReefSwerve extends Command {
+public class AutoReefSwerveRight extends Command {
   private Swerve s_Swerve;
   private ScoringLog sLog;
   private extendy e_Extendy;
   private limelight l_Limelight;
   double dAdj, xAdj, yawAdj;
-  
-  public AutoReefSwerve(Swerve s_Swerve, extendy e_Extendy, ScoringLog sLog, limelight l_Limelight) {
+  public AutoReefSwerveRight(Swerve s_Swerve, extendy e_Extendy, ScoringLog sLog, limelight l_Limelight) {
     this.s_Swerve = s_Swerve;
     this.e_Extendy = e_Extendy;
     this.l_Limelight = l_Limelight;
@@ -49,9 +49,9 @@ public class AutoReefSwerve extends Command {
     /* Drive */ // change 4 and 7 before a real match*/
         if ((l_Limelight.ID1>=6 && l_Limelight.ID1<= 11||l_Limelight.ID1 >= 17.0 && l_Limelight.ID1 <= 22.0 )  
         && (Math.abs(l_Limelight.x1) > 1   || l_Limelight.reefd > .5) && sLog.isSlotAvailable(l_Limelight.getTagID(), e_Extendy.getElevatorHeight())) {
-         yawAdj = (l_Limelight.getTargetYaw() - s_Swerve.gyro.getYaw().getValueAsDouble());
-         xAdj = (22.4-l_Limelight.x1);  
-         dAdj = (-21 - l_Limelight.reefd);    
+          yawAdj = (l_Limelight.getTargetYaw() - s_Swerve.gyro.getYaw().getValueAsDouble());
+          xAdj = (-15.6-l_Limelight.x1);  
+          dAdj = (-25.6 - l_Limelight.reefd);    
          // contains all reef IDs
         //(limeligt.ID == 1.0 || limelight.ID == 2.0 || limelight.ID == 12.0 || limelight.ID == 13.0)     // all source IDs
           s_Swerve.drive(
@@ -84,9 +84,11 @@ public class AutoReefSwerve extends Command {
   @Override
   public boolean isFinished() {
     if(Math.abs(dAdj)<.25 && Math.abs(xAdj)<.25 && Math.abs(yawAdj)<.25){
-      return true;}
-    else{
-      return false;}
+        return true;}
+      else{
+        return false;}
+      }
     }
-  }
+  
+    
 

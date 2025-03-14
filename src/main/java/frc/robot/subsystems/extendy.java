@@ -52,7 +52,8 @@ public class extendy extends SubsystemBase {
     elevatorPID = new PIDController(2.5, 0, 0);
     downPID = new PIDController(.25, 0, 0);
     elevatorFeedForward = new ElevatorFeedforward(0, 0.30, 37.92, 0.01);
-    spoolMotor.setNeutralMode(NeutralModeValue.Brake);
+    spoolMotor.setNeutralMode(NeutralModeValue.Coast);
+    spool2.setNeutralMode(NeutralModeValue.Coast);
   }
  
   public  double getElevatorHeight(){

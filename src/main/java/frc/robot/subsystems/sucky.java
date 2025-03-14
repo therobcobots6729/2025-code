@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.BooleanSupplier;
+
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -46,6 +48,9 @@ public class sucky extends SubsystemBase {
         leftMotor.configure(suckyMotors, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);  
         rightMotor.configure(suckyMotors, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);     
        
+    }
+    public BooleanSupplier finish(){
+      return ()->beam.get();
     }
   @Override
   public void periodic() {

@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -80,7 +80,7 @@ public class RobotContainer {
     ()-> Barge.getAsBoolean()
   );
   private final sucky s_Sucky = new sucky();
-  private final limelight l_Limelight = new limelight(); // do not touch, is required for limelight to work even if it says not used
+  private final limelight l_Limelight = new limelight(s_Swerve); // do not touch, is required for limelight to work even if it says not used
    private final ScoringLog s_Log = new ScoringLog(()->override.getAsBoolean());
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -92,11 +92,7 @@ public class RobotContainer {
             () -> driver.getRawAxis(rotationAxis) ,
             () -> robotCentric.getAsBoolean()));
     
-   e_Extendy.setDefaultCommand(
-        new runExtendy(
-            e_Extendy,
-            () -> upExtendy.getAsBoolean(),
-            () -> downExtendy.getAsBoolean()));
+   
     
 
   
@@ -108,8 +104,10 @@ public class RobotContainer {
     );*/
            
     //Auto Commands
-    NamedCommands.registerCommand("Coral Station Drive", new AutoStationSwerve(s_Swerve));
+    NamedCommands.registerCommand("Coral Station Drive", new AutoStationSwerve(s_Swerve, l_Limelight));
     NamedCommands.registerCommand("Coral Reef Drive", new AutoReefSwerve(s_Swerve, e_Extendy, s_Log, l_Limelight));
+    NamedCommands.registerCommand("Right Reef Drive", new AutoReefSwerveRight(s_Swerve, e_Extendy, s_Log, l_Limelight));
+
     NamedCommands.registerCommand("L4 Extension", new L4Extension(e_Extendy, f_Flippy));
     NamedCommands.registerCommand("Retract Elevator", new processorExtension(e_Extendy, f_Flippy));
     NamedCommands.registerCommand("Intake", new Intake(s_Sucky));
@@ -151,6 +149,14 @@ public class RobotContainer {
     in.onTrue(
       new flipBack(f_Flippy, e_Extendy)
     );
+    upExtendy.whileTrue(
+      new AutoReefSwerve(s_Swerve, e_Extendy, s_Log, l_Limelight)
+    );
+    downExtendy.whileTrue(
+      new AutoReefSwerveRight(s_Swerve, e_Extendy, s_Log, l_Limelight));
+    override.onTrue(
+      new flipUp(f_Flippy)
+    );
     /*upExtendy.onTrue(
       new L4Extension(e_Extendy, f_Flippy)
     );*/
@@ -172,8 +178,7 @@ public class RobotContainer {
     L4.onTrue(
        new L4Extension(e_Extendy, f_Flippy));
     Barge.onTrue(
-      new FlipCommand(f_Flippy)
-          .alongWith(new L4Extension(e_Extendy, f_Flippy))
+     new BargeExtension(e_Extendy, f_Flippy).andThen(Commands.waitSeconds(2)).andThen(new flipUp(f_Flippy))
             
     );
     Shelf.onTrue(

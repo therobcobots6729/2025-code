@@ -51,6 +51,9 @@ public class flipBack extends Command {
   @Override
   public boolean isFinished() {
 
+    if (Math.abs(-90-f_Flippy.WristPosition())< 1.5){
+      return true;
+    }
       return false;
     }
   }

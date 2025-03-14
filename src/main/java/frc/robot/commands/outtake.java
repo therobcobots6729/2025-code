@@ -5,13 +5,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+
 import frc.robot.subsystems.sucky;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class outtake extends Command {
   /** Creates a new outtake. */
+sucky s_Sucky;
+private boolean lastState = false;
   public outtake(sucky s_Sucky) {
     addRequirements(s_Sucky);
+    this.s_Sucky= s_Sucky;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -24,6 +28,7 @@ public class outtake extends Command {
   public void execute() {
     sucky.leftMotor.set(.5);
     sucky.rightMotor.set(.5);
+   
   }
 
   // Called once the command ends or is interrupted.
@@ -36,6 +41,14 @@ public class outtake extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    boolean currentState = s_Sucky.finish().getAsBoolean();
+
+    // Check if it transitioned from false → true
+    boolean risingEdge = !lastState && currentState;
+
+    // Update lastState for next cycle
+    lastState = currentState;
+
+    return risingEdge; 
   }
 }
