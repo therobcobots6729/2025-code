@@ -43,23 +43,29 @@ public class limelight extends SubsystemBase {
   public double getTargetYaw(){
     if(getTagID() == 7.0 ||  getTagID() == 18.0){
       if (s_Swerve.gyro.getYaw().getValueAsDouble() <360 && s_Swerve.gyro.getYaw().getValueAsDouble() >=180){
-      return 360;}
+      return 2* Math.PI;}
       else {return 0;}
     }
-    else if(getTagID() == 19.0 ||  getTagID() == 8.0){
-      return 300;
+    else if(getTagID() == 17.0 ||  getTagID() == 8.0){
+      return Math.toRadians(300);
     }
-    else if(getTagID() == 9.0 ||  getTagID() == 20.0){
-      return 240;
+    else if(getTagID() == 11.0 ||  getTagID() == 20.0){
+      return Math.toRadians(240);
     }
-    else if(getTagID() == 6.0 ||  getTagID() == 17.0){
-      return 60;
+    else if(getTagID() == 6.0 ||  getTagID() == 19.0){
+      return Math.toRadians(60);
     }
-    else if(getTagID() == 11.0 ||  getTagID() == 22.0){
-      return 120;
+    else if(getTagID() == 9.0 ||  getTagID() == 22.0){
+      return Math.toRadians(120);
     }
     else if(getTagID() == 10.0 ||  getTagID() == 21.0){
-      return 180;
+      return Math.toRadians(180);
+    }
+    else if (getTagID() == 2.0 ||  getTagID() == 12.0){
+      return Math.toRadians(55);
+    }
+    else if (getTagID() == 1.0 ||  getTagID() == 13.0){
+      return Math.toRadians(305);
     }
     else{
       return 0;

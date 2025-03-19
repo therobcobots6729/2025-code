@@ -27,8 +27,8 @@ public class flipUp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    f_Flippy.leftPivot.setVoltage(f_Flippy.wristPID.calculate(f_Flippy.WristPosition(), Math.toRadians(60)) + f_Flippy.wristFeedForward.calculate(f_Flippy.WristPosition(), 0));
-    f_Flippy.rightPivot.setVoltage(f_Flippy.wristPID.calculate(f_Flippy.WristPosition(), Math.toRadians(60)) + f_Flippy.wristFeedForward.calculate(f_Flippy.WristPosition(), 0));
+    f_Flippy.leftPivot.setVoltage(f_Flippy.wristPID.calculate(f_Flippy.WristPosition(), Math.toRadians(65)) + f_Flippy.wristFeedForward.calculate(f_Flippy.WristPosition(), 0));
+    f_Flippy.rightPivot.setVoltage(f_Flippy.wristPID.calculate(f_Flippy.WristPosition(), Math.toRadians(65)) + f_Flippy.wristFeedForward.calculate(f_Flippy.WristPosition(), 0));
   }
 
   // Called once the command ends or is interrupted.

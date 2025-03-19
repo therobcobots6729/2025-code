@@ -39,12 +39,6 @@ public class Swerve extends SubsystemBase {
     gyro = new Pigeon2(Constants.Swerve.pigeonID);
     gyro.getConfigurator().apply(new Pigeon2Configuration());
     gyro.setYaw(0);
-
-       
-    try{
-       Rconfig = RobotConfig.fromGUISettings();
-     } catch (Exception e) {e.printStackTrace();
-     }
     
      mSwerveMods =
         new SwerveModule[] {
@@ -57,7 +51,15 @@ public class Swerve extends SubsystemBase {
     swerveOdometry =
         new SwerveDriveOdometry(
             Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());
-   AutoBuilder.configure(
+
+    try{
+      Rconfig = RobotConfig.fromGUISettings();
+    } catch (Exception e) {
+      // Handle exception as needed
+      e.printStackTrace();
+    }
+
+  AutoBuilder.configure(
         this::getPose, // Robot pose supplier
         this::setPose, // Method to reset odometry (will be called if your auto has a starting pose)
         this::getCurrentSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE

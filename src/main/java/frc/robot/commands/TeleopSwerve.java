@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.Swerve;
 //import frc.robot.subsystems.limelight;
+import frc.robot.subsystems.extendy;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -15,7 +16,9 @@ public class TeleopSwerve extends Command {
   private DoubleSupplier translationSup;
   private DoubleSupplier strafeSup;
   private DoubleSupplier rotationSup;
-  private BooleanSupplier robotCentricSup;
+  private extendy e_Extendy;
+  private double speed;
+  //private BooleanSupplier robotCentricSup;
   
 
   public TeleopSwerve(
@@ -23,20 +26,28 @@ public class TeleopSwerve extends Command {
       DoubleSupplier translationSup,
       DoubleSupplier strafeSup,
       DoubleSupplier rotationSup,
-      BooleanSupplier robotCentricSup) {
+      extendy e_Extendy
+      ) {
     this.s_Swerve = s_Swerve;
+    this.e_Extendy = e_Extendy;
     addRequirements(s_Swerve);
 
     this.translationSup = translationSup;
     this.strafeSup = strafeSup;
     this.rotationSup = rotationSup;
-    this.robotCentricSup = robotCentricSup;
+   // this.robotCentricSup = robotCentricSup;
     
   }
 
   @Override
   public void execute() {
     /* Get Values, Deadband */
+    if (e_Extendy.elevatorHeight>6){
+      speed = .5;
+    }
+    else{
+      speed = 1;
+    }
     double translationVal =
         MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband);
     double strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband);
@@ -50,9 +61,9 @@ public class TeleopSwerve extends Command {
          else{*/
       s_Swerve.drive(
         new Translation2d(translationVal, strafeVal)
-            .times(Constants.Swerve.maxSpeed ),
-        rotationVal * Constants.Swerve.maxAngularVelocity * Constants.Swerve.crabTurn,
-        !robotCentricSup.getAsBoolean(),
+            .times(Constants.Swerve.maxSpeed *speed ),
+        rotationVal * Constants.Swerve.maxAngularVelocity * speed,
+        true,
         true);
     }}
 

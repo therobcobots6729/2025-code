@@ -62,6 +62,12 @@
         {
           "type": "named",
           "data": {
+            "name": "Coral Station Drive"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "Score"
           }
         },
@@ -118,6 +124,12 @@
           "type": "path",
           "data": {
             "pathName": "right reef to coral 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Coral Station Drive"
           }
         },
         {

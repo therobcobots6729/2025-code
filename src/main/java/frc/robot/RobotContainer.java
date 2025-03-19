@@ -47,8 +47,8 @@ public class RobotContainer {
   private final JoystickButton out = new JoystickButton(driver, XboxController.Button.kB.value);
   private final JoystickButton in = new JoystickButton(driver, XboxController.Button.kX.value);
   public final  JoystickButton override = new JoystickButton(driver, XboxController.Button.kBack.value);
-  private final JoystickButton down = new JoystickButton(driver, XboxController.Button.kBack.value);
-  private boolean up = false;
+  //private final JoystickButton down = new JoystickButton(driver, XboxController.Button.kBack.value);
+ // private boolean up = false;
    
  
   /* Operator Buttons */
@@ -87,10 +87,11 @@ public class RobotContainer {
     s_Swerve.setDefaultCommand(
         new TeleopSwerve(
             s_Swerve,
-            () -> driver.getRawAxis(translationAxis),
-            () -> driver.getRawAxis(strafeAxis) ,
-            () -> driver.getRawAxis(rotationAxis) ,
-            () -> robotCentric.getAsBoolean()));
+            () -> -driver.getRawAxis(translationAxis),
+            () -> -driver.getRawAxis(strafeAxis) ,
+            () -> -driver.getRawAxis(rotationAxis),
+            e_Extendy));
+          //  () -> robotCentric.getAsBoolean()));
     
    
     
@@ -104,15 +105,15 @@ public class RobotContainer {
     );*/
            
     //Auto Commands
-    NamedCommands.registerCommand("Coral Station Drive", new AutoStationSwerve(s_Swerve, l_Limelight));
+    NamedCommands.registerCommand("Coral Station Drive", new AutoStationSwerve(s_Swerve, l_Limelight, e_Extendy));
     NamedCommands.registerCommand("Coral Reef Drive", new AutoReefSwerve(s_Swerve, e_Extendy, s_Log, l_Limelight));
     NamedCommands.registerCommand("Right Reef Drive", new AutoReefSwerveRight(s_Swerve, e_Extendy, s_Log, l_Limelight));
 
     NamedCommands.registerCommand("L4 Extension", new L4Extension(e_Extendy, f_Flippy));
     NamedCommands.registerCommand("Retract Elevator", new processorExtension(e_Extendy, f_Flippy));
     NamedCommands.registerCommand("Intake", new Intake(s_Sucky));
-    NamedCommands.registerCommand("Score", new outtake(s_Sucky));
-    NamedCommands.registerCommand("Flip Forward", new flipDown(f_Flippy));
+    NamedCommands.registerCommand("Score", new outtake(s_Sucky, e_Extendy));
+    NamedCommands.registerCommand("Flip Forward", new flipDown(f_Flippy, e_Extendy));
     NamedCommands.registerCommand("Flip Back", new flipBack(f_Flippy, e_Extendy));
    
                 
@@ -141,10 +142,10 @@ public class RobotContainer {
       new Intake(s_Sucky)
     );
     outtake.whileTrue(
-      new outtake(s_Sucky)
+      new outtake(s_Sucky, e_Extendy)
     );
     out.onTrue(
-      new flipDown(f_Flippy)
+      new flipDown(f_Flippy, e_Extendy)
     );
     in.onTrue(
       new flipBack(f_Flippy, e_Extendy)

@@ -48,16 +48,16 @@ public class AutoReefSwerve extends Command {
    
     /* Drive */ // change 4 and 7 before a real match*/
         if ((l_Limelight.ID1>=6 && l_Limelight.ID1<= 11||l_Limelight.ID1 >= 17.0 && l_Limelight.ID1 <= 22.0 )  
-        && (Math.abs(l_Limelight.x1) > 1   || l_Limelight.reefd > .5) && sLog.isSlotAvailable(l_Limelight.getTagID(), e_Extendy.getElevatorHeight())) {
+        && (Math.abs(l_Limelight.x1) > 1   || l_Limelight.reefd > .5) ) {
          yawAdj = (l_Limelight.getTargetYaw() - s_Swerve.gyro.getYaw().getValueAsDouble());
-         xAdj = (22.4-l_Limelight.x1);  
-         dAdj = (-21 - l_Limelight.reefd);    
+         xAdj = (23.4-l_Limelight.x1);  
+         dAdj = (-32.6 - l_Limelight.reefd);    
          // contains all reef IDs
         //(limeligt.ID == 1.0 || limelight.ID == 2.0 || limelight.ID == 12.0 || limelight.ID == 13.0)     // all source IDs
           s_Swerve.drive(
-            new Translation2d(-dAdj,-xAdj)
-            .times(Constants.Swerve.maxSpeed * .015), 
-            -yawAdj *.1, 
+            new Translation2d(dAdj,xAdj)
+            .times(Constants.Swerve.maxSpeed * .01), 
+            yawAdj *.1, 
             false, 
             true);
          } 
@@ -83,10 +83,8 @@ public class AutoReefSwerve extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(Math.abs(dAdj)<.25 && Math.abs(xAdj)<.25 && Math.abs(yawAdj)<.25){
-      return true;}
-    else{
+   
       return false;}
-    }
+    
   }
 

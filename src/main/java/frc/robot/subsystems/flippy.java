@@ -26,7 +26,6 @@ public class flippy extends SubsystemBase {
   public double forwardWristTargetDistance;
   public PIDController wristPID;
   public ArmFeedforward wristFeedForward;
-  private flippy f_Flippy;
   private BooleanSupplier a,b,c,d,e,f;
   private double OUT = 180;
   private double IN = 0;

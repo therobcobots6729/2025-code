@@ -19,18 +19,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class sucky extends SubsystemBase {
   public static SparkMax leftMotor;
   public static SparkMax rightMotor;
+  public static SparkMax intakeMotor;
   private SparkMaxConfig suckyMotors;
   public static DigitalInput beam;
   /** Creates a new sucky. */
   public sucky() {
     suckyMotors = new SparkMaxConfig();
     leftMotor = new SparkMax(15, MotorType.kBrushless);
-    rightMotor = new SparkMax(25 
-    
-     
-    
-    
-    , MotorType.kBrushless);
+    rightMotor = new SparkMax(25 , MotorType.kBrushless);
+    //intakeMotor = new SparkMax(0, MotorType.kBrushless);
     configSuckyMotors();
     beam = new DigitalInput(0);
     

@@ -48,7 +48,7 @@ public class AutoReefSwerveRight extends Command {
    
     /* Drive */ // change 4 and 7 before a real match*/
         if ((l_Limelight.ID1>=6 && l_Limelight.ID1<= 11||l_Limelight.ID1 >= 17.0 && l_Limelight.ID1 <= 22.0 )  
-        && (Math.abs(l_Limelight.x1) > 1   || l_Limelight.reefd > .5) && sLog.isSlotAvailable(l_Limelight.getTagID(), e_Extendy.getElevatorHeight())) {
+        && (Math.abs(l_Limelight.x1) > 1   || l_Limelight.reefd > .5) ) {
           yawAdj = (l_Limelight.getTargetYaw() - s_Swerve.gyro.getYaw().getValueAsDouble());
           xAdj = (-15.6-l_Limelight.x1);  
           dAdj = (-25.6 - l_Limelight.reefd);    
@@ -83,10 +83,8 @@ public class AutoReefSwerveRight extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(Math.abs(dAdj)<.25 && Math.abs(xAdj)<.25 && Math.abs(yawAdj)<.25){
-        return true;}
-      else{
-        return false;}
+    
+        return false;
       }
     }
   
