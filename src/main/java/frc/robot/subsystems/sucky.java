@@ -14,6 +14,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class sucky extends SubsystemBase {
@@ -29,7 +30,7 @@ public class sucky extends SubsystemBase {
     rightMotor = new SparkMax(25 , MotorType.kBrushless);
     //intakeMotor = new SparkMax(0, MotorType.kBrushless);
     configSuckyMotors();
-    beam = new DigitalInput(0);
+    beam = new DigitalInput(2);
     
    
   }
@@ -47,10 +48,13 @@ public class sucky extends SubsystemBase {
        
     }
     public BooleanSupplier finish(){
-      return ()->beam.get();
+
+      return ()-> beam.get();
     }
   @Override
   public void periodic() {
+    SmartDashboard.putBoolean("beams", beam.get());
+    
     // This method will be called once per scheduler run
   }
 }

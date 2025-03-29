@@ -69,8 +69,8 @@ public class Swerve extends SubsystemBase {
         new PPHolonomicDriveController( // HolonomicPathFollowerConfig, this should likely live in
             // your
             // Constants class
-            new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-            new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
+            new PIDConstants(7.0, 0.0, 0.0), // Translation PID constants
+            new PIDConstants(8.425, 0.0, 0.0) // Rotation PID constants
             // Drive base radius in meters. Distance from robot center to furthest module.
              // Default path replanning config. See the API for the options
             // here
@@ -193,6 +193,8 @@ public class Swerve extends SubsystemBase {
       SmartDashboard.putNumber(
           "Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
           SmartDashboard.putNumber("Yaw", gyro.getYaw().getValueAsDouble());
+          SmartDashboard.putNumber("HEADING", getPose().getRotation().getDegrees());
+
     }
   }
 }

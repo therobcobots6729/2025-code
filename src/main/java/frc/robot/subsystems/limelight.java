@@ -12,13 +12,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class limelight extends SubsystemBase {
   private Swerve s_Swerve;
-  private final NetworkTable table1 = NetworkTableInstance.getDefault().getTable("limelight-front"); // Forward Limelight
+  private final NetworkTable table1 = NetworkTableInstance.getDefault().getTable("limelight-fr"); // Forward Limelight
   private final NetworkTableEntry tx1 = table1.getEntry("tx");
   private final NetworkTableEntry ty1 = table1.getEntry("ty");
   public final NetworkTableEntry tid1 = table1.getEntry("tid");
   private final NetworkTableEntry botposeEntry = table1.getEntry("botpose");
   
-  private final NetworkTable table2 = NetworkTableInstance.getDefault().getTable("limelight2"); // Backward Limelight
+  private final NetworkTable table2 = NetworkTableInstance.getDefault().getTable("limelight-fl"); // Backward Limelight
   private final NetworkTableEntry tx2 = table2.getEntry("tx");
   private final NetworkTableEntry ty2 = table2.getEntry("ty");
   private final NetworkTableEntry tid2 = table2.getEntry("tid");
@@ -38,34 +38,40 @@ public class limelight extends SubsystemBase {
 
   /** Gets the detected AprilTag ID from the forward Limelight */
   public double getTagID() {
-      return tid1.getDouble(0.0);
-  }
+    
+    return tid1.getDouble(0.0);
+}
+public double getTagID2() {
+    
+  return tid2.getDouble(0.0);
+}
   public double getTargetYaw(){
-    if(getTagID() == 7.0 ||  getTagID() == 18.0){
-      if (s_Swerve.gyro.getYaw().getValueAsDouble() <360 && s_Swerve.gyro.getYaw().getValueAsDouble() >=180){
-      return 2* Math.PI;}
-      else {return 0;}
+    if(getTagID()==7.0||getTagID2() == 7.0 ||  getTagID() == 18.0 || getTagID2() == 18){
+      return 0;
     }
-    else if(getTagID() == 17.0 ||  getTagID() == 8.0){
-      return Math.toRadians(300);
+    else if(getTagID() == 17.0 || getTagID2() ==17.0 ||  getTagID() == 8.0 || getTagID2() == 8.0){
+      return 60;
     }
-    else if(getTagID() == 11.0 ||  getTagID() == 20.0){
-      return Math.toRadians(240);
+    else if(getTagID() == 11.0 || getTagID2() ==11.0 ||  getTagID() == 20.0|| getTagID2() ==20.0){
+      return -120;
     }
-    else if(getTagID() == 6.0 ||  getTagID() == 19.0){
-      return Math.toRadians(60);
+    else if(getTagID() == 6.0 || getTagID2() ==6.0 ||  getTagID() == 19.0|| getTagID2() ==19.0){
+      return -60;
     }
-    else if(getTagID() == 9.0 ||  getTagID() == 22.0){
-      return Math.toRadians(120);
+    else if(getTagID() == 9.0 || getTagID2() ==9.0 ||  getTagID() == 22.0 || getTagID2() ==22.0){
+      return 120;
     }
-    else if(getTagID() == 10.0 ||  getTagID() == 21.0){
-      return Math.toRadians(180);
+    else if(getTagID() == 10.0|| getTagID2() ==10.0 ||  getTagID() == 21.0|| getTagID2() ==21.0){
+      if (s_Swerve.getPose().getRotation().getDegrees() >=0){
+        return 180;}
+        else {return -180;}
     }
-    else if (getTagID() == 2.0 ||  getTagID() == 12.0){
-      return Math.toRadians(55);
+    
+    else if (getTagID() == 2.0 || getTagID2() ==2.0 ||  getTagID() == 12.0 || getTagID2() ==12.0){
+      return 55;
     }
-    else if (getTagID() == 1.0 ||  getTagID() == 13.0){
-      return Math.toRadians(305);
+    else if (getTagID() == 1.0 || getTagID2() ==1.0 ||  getTagID() == 13.0 || getTagID2() ==13.0 ){
+     return  -55;
     }
     else{
       return 0;
@@ -101,12 +107,7 @@ public void periodic() {
                 (stationHeightInches - limelight2LensHeightInches) / Math.tan(angleToStationRadians) : 
                 Double.POSITIVE_INFINITY;
 
-    double processorHeightInches = 51.125;
-    double angleToProcessorDegrees = limelight1MountAngleDegrees + targetOffsetAngle_Vertical1;
-    double angleToProcessorRadians = Math.toRadians(angleToProcessorDegrees);
-    processord = (Math.abs(angleToProcessorRadians) > 0.01) ? 
-                  (processorHeightInches - limelight1LensHeightInches) / Math.tan(angleToProcessorRadians) : 
-                  Double.POSITIVE_INFINITY;
+  
 
     x1 = tx1.getDouble(0.0);
     y1 = ty1.getDouble(0.0);
@@ -120,13 +121,12 @@ public void periodic() {
     SmartDashboard.putNumber("Processor Distance", processord);
     SmartDashboard.putNumber("Tag ID 1", ID1);
     SmartDashboard.putNumber("Tag ID 2", ID2);
-    SmartDashboard.putNumber("Reef X", x1);
-    SmartDashboard.putNumber("Station X", x1);
+    SmartDashboard.putNumber("right Reef X", x1);
+    SmartDashboard.putNumber("left reef X", x2);
+    SmartDashboard.putNumber("right Reef Y", y1);
+    SmartDashboard.putNumber("left reef Y", y2);
     
-      SmartDashboard.putNumber("Botpose X", x);
-      SmartDashboard.putNumber("Botpose Y", y);
-      SmartDashboard.putNumber("Botpose Z", z);
-      SmartDashboard.putNumber("Botpose Pitch", pitch);
-      SmartDashboard.putNumber("Botpose Yaw", yaw);
-      SmartDashboard.putNumber("Botpose Roll", roll);
+      
+      boolean isConnected = NetworkTableInstance.getDefault().isConnected();
+SmartDashboard.putBoolean("NetworkTables Connected", isConnected);
   }}

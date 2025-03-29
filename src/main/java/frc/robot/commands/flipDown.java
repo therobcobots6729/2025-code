@@ -31,11 +31,15 @@ public class flipDown extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (e_Extendy.elevatorHeight<25){
+    if (e_Extendy.elevatorHeight<25 && e_Extendy.elevatorHeight >5){
       targetangle = -10;
     }
+    else if(e_Extendy.elevatorHeight <5){
+      targetangle = -30;
+
+    }
     else{
-      targetangle = -25;
+      targetangle = -20;
     }
     f_Flippy.leftPivot.setVoltage(f_Flippy.wristPID.calculate(f_Flippy.WristPosition(), Math.toRadians(targetangle)) + f_Flippy.wristFeedForward.calculate(f_Flippy.WristPosition(), 0));
     f_Flippy.rightPivot.setVoltage(f_Flippy.wristPID.calculate(f_Flippy.WristPosition(), Math.toRadians(targetangle)) + f_Flippy.wristFeedForward.calculate(f_Flippy.WristPosition(), 0));
@@ -52,10 +56,12 @@ public class flipDown extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(-10-f_Flippy.WristPosition())< 1.5){
+    if (Math.abs(Math.toRadians(targetangle)-f_Flippy.WristPosition())< .1){
       return true;
     }
+    else{
       return false;
     }
   }
+}
 

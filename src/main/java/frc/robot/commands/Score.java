@@ -9,13 +9,12 @@ import frc.robot.subsystems.extendy;
 import frc.robot.subsystems.sucky;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class outtake extends Command {
-  /** Creates a new outtake. */
-sucky s_Sucky;
-extendy e_Extendy;
-private double speed;
-private boolean lastState = false;
-  public outtake(sucky s_Sucky, extendy e_Extendy) {
+public class Score extends Command {
+  private double speed;
+  sucky s_Sucky;
+  extendy e_Extendy;
+  /** Creates a new Score. */
+  public Score(sucky s_Sucky, extendy e_Extendy) {
     addRequirements(s_Sucky);
     this.s_Sucky= s_Sucky;
     this.e_Extendy = e_Extendy;
@@ -38,7 +37,6 @@ private boolean lastState = false;
     sucky.leftMotor.set(speed);
     sucky.rightMotor.set(speed);
     //sucky.intakeMotor.set(-.5);
-   
   }
 
   // Called once the command ends or is interrupted.
@@ -46,13 +44,11 @@ private boolean lastState = false;
   public void end(boolean interrupted) {
     sucky.leftMotor.set(0);
     sucky.rightMotor.set(0);
-    //sucky.intakeMotor.set(-.5);
-
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-   return sucky.beam.get();
+    return false;
   }
 }

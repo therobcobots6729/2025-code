@@ -42,11 +42,11 @@ public class flippy extends SubsystemBase {
     rightPivot = new TalonFX(19);
     leftPivot.setInverted(true);
     rightPivot.setInverted(true);
-    wristEncoder = new DutyCycleEncoder(2);
+    wristEncoder = new DutyCycleEncoder(0);
     leftPivot.setNeutralMode(NeutralModeValue.Brake);
     rightPivot.setNeutralMode(NeutralModeValue.Brake);
     wristFeedForward = new ArmFeedforward(0,.32, .45, .01);
-    wristPID = new PIDController(1, 0, 0);
+    wristPID = new PIDController(2.75, 0, 0);
   }
   
   public double determineTargeAngle() {
@@ -67,5 +67,7 @@ public class flippy extends SubsystemBase {
    
     SmartDashboard.putNumber("wrist angle", wristAngle);// 0 is a placeholder for an offset
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("error",Math.abs(Math.toRadians(10)-WristPosition()));
+    SmartDashboard.putBoolean("connection", wristEncoder.isConnected());
   }
 }

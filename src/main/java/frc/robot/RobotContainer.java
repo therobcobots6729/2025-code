@@ -12,8 +12,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -58,11 +59,12 @@ public class RobotContainer {
   private final JoystickButton L1 = new JoystickButton(operator, 2);
   private final JoystickButton Shelf = new JoystickButton(operator, 1);
   private final JoystickButton Barge = new JoystickButton(operator, 9);
+  private final JoystickButton L3ball = new JoystickButton(operator, 8);
+  private final JoystickButton L2ball = new JoystickButton(operator, 7);
+  private final JoystickButton holdball = new JoystickButton(operator, 6);
 
   /* Subsystems */
-  private final Swerve s_Swerve = new Swerve(
-    
-  );
+  private final Swerve s_Swerve = new Swerve();
   private final extendy e_Extendy = new extendy(
     ()-> L1.getAsBoolean(),
     ()-> L2.getAsBoolean(),
@@ -81,7 +83,11 @@ public class RobotContainer {
   );
   private final sucky s_Sucky = new sucky();
   private final limelight l_Limelight = new limelight(s_Swerve); // do not touch, is required for limelight to work even if it says not used
-   private final ScoringLog s_Log = new ScoringLog(()->override.getAsBoolean());
+  private final ScoringLog s_Log = new ScoringLog(()->override.getAsBoolean());
+
+  /* Triggers */
+  private final Trigger BrakeBeam = new Trigger(s_Sucky.finish());
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     s_Swerve.setDefaultCommand(
@@ -90,8 +96,8 @@ public class RobotContainer {
             () -> -driver.getRawAxis(translationAxis),
             () -> -driver.getRawAxis(strafeAxis) ,
             () -> -driver.getRawAxis(rotationAxis),
-            e_Extendy));
-          //  () -> robotCentric.getAsBoolean()));
+            e_Extendy,
+            () -> robotCentric.getAsBoolean()));
     
    
     
@@ -109,10 +115,11 @@ public class RobotContainer {
     NamedCommands.registerCommand("Coral Reef Drive", new AutoReefSwerve(s_Swerve, e_Extendy, s_Log, l_Limelight));
     NamedCommands.registerCommand("Right Reef Drive", new AutoReefSwerveRight(s_Swerve, e_Extendy, s_Log, l_Limelight));
 
-    NamedCommands.registerCommand("L4 Extension", new L4Extension(e_Extendy, f_Flippy));
-    NamedCommands.registerCommand("Retract Elevator", new processorExtension(e_Extendy, f_Flippy));
-    NamedCommands.registerCommand("Intake", new Intake(s_Sucky));
-    NamedCommands.registerCommand("Score", new outtake(s_Sucky, e_Extendy));
+    NamedCommands.registerCommand("L4 Extension", new L3Extension(e_Extendy, f_Flippy));
+    NamedCommands.registerCommand("Retract Elevator", new L1Extension(e_Extendy, f_Flippy));
+    NamedCommands.registerCommand("Intake", new outtake(s_Sucky, e_Extendy));
+    NamedCommands.registerCommand("Score", new Score(s_Sucky, e_Extendy));
+    
     NamedCommands.registerCommand("Flip Forward", new flipDown(f_Flippy, e_Extendy));
     NamedCommands.registerCommand("Flip Back", new flipBack(f_Flippy, e_Extendy));
    
@@ -142,7 +149,7 @@ public class RobotContainer {
       new Intake(s_Sucky)
     );
     outtake.whileTrue(
-      new outtake(s_Sucky, e_Extendy)
+      new Score(s_Sucky, e_Extendy)
     );
     out.onTrue(
       new flipDown(f_Flippy, e_Extendy)
@@ -164,28 +171,41 @@ public class RobotContainer {
    /* downExtendy.onTrue(
       new processorExtension(e_Extendy, f_Flippy)
     );*/
-
+      BrakeBeam.whileFalse(
+        new AutoIntake(s_Sucky, e_Extendy, f_Flippy)
+      );
  
-   L1.onTrue(new processorExtension(e_Extendy, f_Flippy));
-   L2.onTrue(new L4Extension(e_Extendy, f_Flippy));
+ 
     // Operator Buttons 
-    L1.onTrue(
-      new L1Extension(e_Extendy, f_Flippy));
+    Shelf.onTrue(new SequentialCommandGroup(
+      new flipBack(f_Flippy, e_Extendy).andThen(new L1Extension(e_Extendy, f_Flippy)).andThen(new flipDown(f_Flippy, e_Extendy))));
 
-    L2.onTrue(
-     new L2Extension(e_Extendy, f_Flippy));
-    L3.onTrue(
-    new L3Extension(e_Extendy, f_Flippy));
-    L4.onTrue(
-       new L4Extension(e_Extendy, f_Flippy));
-    Barge.onTrue(
-     new BargeExtension(e_Extendy, f_Flippy).andThen(Commands.waitSeconds(2)).andThen(new flipUp(f_Flippy))
+    L2.onTrue(new SequentialCommandGroup(
+      new flipBack(f_Flippy, e_Extendy).andThen(new L2Extension(e_Extendy, f_Flippy)).andThen(new flipDown(f_Flippy, e_Extendy))));
+    L3.onTrue(new SequentialCommandGroup(
+      new flipBack(f_Flippy, e_Extendy).andThen(new L3Extension(e_Extendy, f_Flippy)).andThen(new flipDown(f_Flippy, e_Extendy))));
+    L4.onTrue(new SequentialCommandGroup(
+      new flipBack(f_Flippy, e_Extendy).andThen(new BargeExtension(e_Extendy)).andThen(new flipDown(f_Flippy, e_Extendy))));
+    Barge.onTrue(new SequentialCommandGroup(
+      new flipBack(f_Flippy, e_Extendy).andThen(new BargeExtension(e_Extendy)).andThen(new flipUp(f_Flippy))));
             
-    );
-    Shelf.onTrue(
-      new L1Extension(e_Extendy, f_Flippy)
+    ;
+    L1.onTrue( new SequentialCommandGroup(
+      new flipBack(f_Flippy, e_Extendy).andThen(new L1Extension(e_Extendy, f_Flippy))))
         //.alongWith(new FlipCommand(f_Flippy))
-    );
+    ;
+    L2ball.onTrue( new SequentialCommandGroup(
+      new flipBack(f_Flippy, e_Extendy).andThen(new L2Extension(e_Extendy, f_Flippy))))
+        //.alongWith(new FlipCommand(f_Flippy))
+    ;
+    L3ball.onTrue( new SequentialCommandGroup(
+      new flipBack(f_Flippy, e_Extendy).andThen(new L3Extension(e_Extendy, f_Flippy))))
+        //.alongWith(new FlipCommand(f_Flippy))
+    ;
+    holdball.onTrue( new SequentialCommandGroup(
+      new flipBack(f_Flippy, e_Extendy).andThen(new L1Extension(e_Extendy, f_Flippy))))
+        //.alongWith(new FlipCommand(f_Flippy))
+    ;
   }
 
   /**

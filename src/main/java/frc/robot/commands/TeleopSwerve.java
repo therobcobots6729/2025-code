@@ -18,7 +18,7 @@ public class TeleopSwerve extends Command {
   private DoubleSupplier rotationSup;
   private extendy e_Extendy;
   private double speed;
-  //private BooleanSupplier robotCentricSup;
+  private BooleanSupplier robotCentricSup;
   
 
   public TeleopSwerve(
@@ -26,7 +26,8 @@ public class TeleopSwerve extends Command {
       DoubleSupplier translationSup,
       DoubleSupplier strafeSup,
       DoubleSupplier rotationSup,
-      extendy e_Extendy
+      extendy e_Extendy,
+      BooleanSupplier robotCentricSup
       ) {
     this.s_Swerve = s_Swerve;
     this.e_Extendy = e_Extendy;
@@ -35,7 +36,7 @@ public class TeleopSwerve extends Command {
     this.translationSup = translationSup;
     this.strafeSup = strafeSup;
     this.rotationSup = rotationSup;
-   // this.robotCentricSup = robotCentricSup;
+    this.robotCentricSup = robotCentricSup;
     
   }
 
@@ -43,7 +44,7 @@ public class TeleopSwerve extends Command {
   public void execute() {
     /* Get Values, Deadband */
     if (e_Extendy.elevatorHeight>6){
-      speed = .5;
+      speed = .25;
     }
     else{
       speed = 1;
@@ -63,7 +64,7 @@ public class TeleopSwerve extends Command {
         new Translation2d(translationVal, strafeVal)
             .times(Constants.Swerve.maxSpeed *speed ),
         rotationVal * Constants.Swerve.maxAngularVelocity * speed,
-        true,
+        !robotCentricSup.getAsBoolean(),
         true);
     }}
 
