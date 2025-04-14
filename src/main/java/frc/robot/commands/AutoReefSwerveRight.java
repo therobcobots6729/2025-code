@@ -49,12 +49,12 @@ public class AutoReefSwerveRight extends Command {
     /* Drive */ // change 4 and 7 before a real match*/
         
           yawAdj = (l_Limelight.getTargetYaw() - s_Swerve.getPose().getRotation().getDegrees());
-          xAdj = (9.0-l_Limelight.x2)*10;  
-          dAdj = (6.2 - l_Limelight.y2)*10;    
+          xAdj = -(68.8-l_Limelight.x2);  
+          dAdj = (68.6 - l_Limelight.y2);    
          // contains all reef IDs
         //(limeligt.ID == 1.0 || limelight.ID == 2.0 || limelight.ID == 12.0 || limelight.ID == 13.0)     // all source IDs
           s_Swerve.drive(
-            new Translation2d(dAdj*.003,xAdj*.0007)
+            new Translation2d(dAdj*.0003,xAdj*.0007)
             .times(Constants.Swerve.maxSpeed ), 
             yawAdj *.2, 
             false, 

@@ -84,18 +84,23 @@ public class RobotContainer {
   private final sucky s_Sucky = new sucky();
   private final limelight l_Limelight = new limelight(s_Swerve); // do not touch, is required for limelight to work even if it says not used
   private final ScoringLog s_Log = new ScoringLog(()->override.getAsBoolean());
-
+  private final VisionSubsystem s_Vision;
+  private final PoseSubsystem s_Pose;
   /* Triggers */
   private final Trigger BrakeBeam = new Trigger(s_Sucky.finish());
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
+    s_Vision = new VisionSubsystem();
+    s_Pose = new PoseSubsystem(s_Swerve, s_Vision);
+
     s_Swerve.setDefaultCommand(
         new TeleopSwerve(
             s_Swerve,
-            () -> -driver.getRawAxis(translationAxis),
-            () -> -driver.getRawAxis(strafeAxis) ,
-            () -> -driver.getRawAxis(rotationAxis),
+            () -> -.3*driver.getRawAxis(translationAxis),
+            () -> -.3*driver.getRawAxis(strafeAxis) ,
+            () -> -.3*driver.getRawAxis(rotationAxis),
             e_Extendy,
             () -> robotCentric.getAsBoolean()));
     
@@ -115,10 +120,12 @@ public class RobotContainer {
     NamedCommands.registerCommand("Coral Reef Drive", new AutoReefSwerve(s_Swerve, e_Extendy, s_Log, l_Limelight));
     NamedCommands.registerCommand("Right Reef Drive", new AutoReefSwerveRight(s_Swerve, e_Extendy, s_Log, l_Limelight));
 
-    NamedCommands.registerCommand("L4 Extension", new L3Extension(e_Extendy, f_Flippy));
-    NamedCommands.registerCommand("Retract Elevator", new L1Extension(e_Extendy, f_Flippy));
-    NamedCommands.registerCommand("Intake", new outtake(s_Sucky, e_Extendy));
-    NamedCommands.registerCommand("Score", new Score(s_Sucky, e_Extendy));
+    NamedCommands.registerCommand("L4 Extension",new SequentialCommandGroup(
+      new flipBack(f_Flippy, e_Extendy).andThen(new L4Extension(e_Extendy, f_Flippy)).andThen(new flipDown(f_Flippy, e_Extendy))));
+    NamedCommands.registerCommand("Retract Elevator", new SequentialCommandGroup(
+      new flipBack(f_Flippy, e_Extendy).andThen(new L1Extension(e_Extendy, f_Flippy)).andThen(new flipDown(f_Flippy, e_Extendy))));
+    NamedCommands.registerCommand("Intake", new outtake(s_Sucky, e_Extendy).withTimeout(1.5));
+    NamedCommands.registerCommand("Score", new Score(s_Sucky, e_Extendy, f_Flippy).withTimeout(1.5));
     
     NamedCommands.registerCommand("Flip Forward", new flipDown(f_Flippy, e_Extendy));
     NamedCommands.registerCommand("Flip Back", new flipBack(f_Flippy, e_Extendy));
@@ -149,7 +156,7 @@ public class RobotContainer {
       new Intake(s_Sucky)
     );
     outtake.whileTrue(
-      new Score(s_Sucky, e_Extendy)
+      new Score(s_Sucky, e_Extendy, f_Flippy)
     );
     out.onTrue(
       new flipDown(f_Flippy, e_Extendy)
@@ -181,13 +188,13 @@ public class RobotContainer {
       new flipBack(f_Flippy, e_Extendy).andThen(new L1Extension(e_Extendy, f_Flippy)).andThen(new flipDown(f_Flippy, e_Extendy))));
 
     L2.onTrue(new SequentialCommandGroup(
-      new flipBack(f_Flippy, e_Extendy).andThen(new L2Extension(e_Extendy, f_Flippy)).andThen(new flipDown(f_Flippy, e_Extendy))));
+      new flipBack(f_Flippy, e_Extendy).andThen(new L2Extension(e_Extendy, f_Flippy)).andThen(new FlipDownL2(f_Flippy, e_Extendy))));
     L3.onTrue(new SequentialCommandGroup(
       new flipBack(f_Flippy, e_Extendy).andThen(new L3Extension(e_Extendy, f_Flippy)).andThen(new flipDown(f_Flippy, e_Extendy))));
     L4.onTrue(new SequentialCommandGroup(
-      new flipBack(f_Flippy, e_Extendy).andThen(new BargeExtension(e_Extendy)).andThen(new flipDown(f_Flippy, e_Extendy))));
+      new flipBack(f_Flippy, e_Extendy).andThen(new BargeExtension(e_Extendy, f_Flippy)).andThen(new flipDown(f_Flippy, e_Extendy))));
     Barge.onTrue(new SequentialCommandGroup(
-      new flipBack(f_Flippy, e_Extendy).andThen(new BargeExtension(e_Extendy)).andThen(new flipUp(f_Flippy))));
+      new flipBack(f_Flippy, e_Extendy).andThen(new BargeExtension(e_Extendy, f_Flippy)).andThen(new flipUp(f_Flippy))));
             
     ;
     L1.onTrue( new SequentialCommandGroup(
@@ -195,11 +202,11 @@ public class RobotContainer {
         //.alongWith(new FlipCommand(f_Flippy))
     ;
     L2ball.onTrue( new SequentialCommandGroup(
-      new flipBack(f_Flippy, e_Extendy).andThen(new L2Extension(e_Extendy, f_Flippy))))
+      new flipBack(f_Flippy, e_Extendy).andThen(new L2Extension(e_Extendy, f_Flippy)).andThen(new flipDown(f_Flippy, e_Extendy))))
         //.alongWith(new FlipCommand(f_Flippy))
     ;
     L3ball.onTrue( new SequentialCommandGroup(
-      new flipBack(f_Flippy, e_Extendy).andThen(new L3Extension(e_Extendy, f_Flippy))))
+      new flipBack(f_Flippy, e_Extendy).andThen(new L3Extension(e_Extendy, f_Flippy)).andThen(new flipDown(f_Flippy, e_Extendy))))
         //.alongWith(new FlipCommand(f_Flippy))
     ;
     holdball.onTrue( new SequentialCommandGroup(

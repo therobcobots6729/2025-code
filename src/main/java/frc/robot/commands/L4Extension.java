@@ -59,6 +59,7 @@ public class L4Extension extends Command {
   @Override
   public boolean isFinished() {
     if (Math.abs(29-e_Extendy.getElevatorHeight())<.25){
+      System.out.println("ended");
       return true;
     }
     else{

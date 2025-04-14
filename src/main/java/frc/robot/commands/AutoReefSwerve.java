@@ -47,27 +47,22 @@ public class AutoReefSwerve extends Command {
         /* Get Values, Deadband */
    
     /* Drive */ // change 4 and 7 before a real match*/
-        if ((l_Limelight.ID1>=6 && l_Limelight.ID1<= 11||l_Limelight.ID1 >= 17.0 && l_Limelight.ID1 <= 22.0 )  
-        && (Math.abs(l_Limelight.x1) > 1   || l_Limelight.reefd > .5) ) {
+ 
+
          yawAdj = (l_Limelight.getTargetYaw() - s_Swerve.getPose().getRotation().getDegrees());
-         xAdj = (-18.3-l_Limelight.x1)*10;  
-         dAdj = (7.3 - l_Limelight.y1)*10;    
+         xAdj = -(246.6-l_Limelight.x1);  
+         dAdj = (68 - l_Limelight.y1);    
          // contains all reef IDs
         //(limeligt.ID == 1.0 || limelight.ID == 2.0 || limelight.ID == 12.0 || limelight.ID == 13.0)     // all source IDs
           s_Swerve.drive(
-            new Translation2d(dAdj*.003,xAdj*.0007)
+            new Translation2d(-dAdj*.003,-xAdj*.0007)
             .times(Constants.Swerve.maxSpeed  ), 
             yawAdj *.2, 
             false, 
             true);
-         } 
+         
         
-         else {
-          s_Swerve.drive(
-            new Translation2d(0,0),
-            0, 
-            false, 
-            true);}
+     
   }
 
   // Called once the command ends or is interrupted.

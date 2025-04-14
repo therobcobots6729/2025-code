@@ -19,75 +19,7 @@
         {
           "type": "named",
           "data": {
-            "name": "L4 Extension"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Flip Forward"
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.0
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Coral Reef Drive"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.25
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Score"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "first backup"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Flip Back"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Retract Elevator"
+            "name": "Score"
           }
         },
         {
@@ -128,50 +60,13 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Flip Back"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "L4 Extension"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Flip Forward"
-          }
-        },
-        {
           "type": "race",
           "data": {
             "commands": [
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.0
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Coral Reef Drive"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.25
+                  "waitTime": 2.0
                 }
               },
               {
@@ -181,24 +76,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "third backup"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Flip Back"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Retract Elevator"
           }
         },
         {
@@ -239,50 +116,13 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Flip Back"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "L4 Extension"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Flip Forward"
-          }
-        },
-        {
           "type": "race",
           "data": {
             "commands": [
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.0
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Right Reef Drive"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.25
+                  "waitTime": 2.0
                 }
               },
               {
@@ -295,21 +135,9 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "second backup"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "Flip Back"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Retract Elevator"
+            "name": "Flip Forward"
           }
         }
       ]

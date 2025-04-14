@@ -7,18 +7,20 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.extendy;
+import frc.robot.subsystems.flippy;
 
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class BargeExtension extends Command {
   private final extendy e_Extendy;
-
+  private flippy f_Flippy;
   public double feedForward;
   public double pid;
   /** Creates a new fullExtension. */
-  public BargeExtension(extendy e_Extendy) {
+  public BargeExtension(extendy e_Extendy, flippy f_Flippy) {
     addRequirements(e_Extendy);
     this.e_Extendy =  e_Extendy;
+    this.f_Flippy = f_Flippy;
     
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -58,7 +60,7 @@ public class BargeExtension extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (e_Extendy.elevatorHeight>29.25){
+    if (Math.abs(29.5 - e_Extendy.elevatorHeight) < .25){
       return true;
     }
     else{

@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.extendy;
+import frc.robot.subsystems.flippy;
 import frc.robot.subsystems.sucky;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -13,10 +14,12 @@ public class Score extends Command {
   private double speed;
   sucky s_Sucky;
   extendy e_Extendy;
+  flippy f_Flippy;
   /** Creates a new Score. */
-  public Score(sucky s_Sucky, extendy e_Extendy) {
+  public Score(sucky s_Sucky, extendy e_Extendy, flippy f_Flippy) {
     addRequirements(s_Sucky);
     this.s_Sucky= s_Sucky;
+    this.f_Flippy = f_Flippy;
     this.e_Extendy = e_Extendy;
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -28,11 +31,21 @@ public class Score extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (e_Extendy.elevatorHeight < 5){
+    if (e_Extendy.elevatorHeight < 5 && f_Flippy.wristAngle <-10 ){
+      speed = .75;
+    }
+    else if (e_Extendy.elevatorHeight<5 && f_Flippy.wristAngle > -10){
+      speed = .35;
+    }
+    else if (e_Extendy.elevatorHeight> 28){
+
+      speed = .75;
+    }
+    else if (e_Extendy.elevatorHeight > 28 && f_Flippy.wristAngle > 20){
       speed = .1;
     }
     else{
-      speed = .75;
+      speed = .5;
     }
     sucky.leftMotor.set(speed);
     sucky.rightMotor.set(speed);
