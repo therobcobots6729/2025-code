@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.extendy;
 import frc.robot.subsystems.flippy;
 import frc.robot.subsystems.sucky;
@@ -17,7 +16,6 @@ sucky s_Sucky;
 extendy e_Extendy;
 flippy f_Flippy;
 private double speed;
-private boolean lastState = false;
   public outtake(sucky s_Sucky, extendy e_Extendy) {
     addRequirements(s_Sucky);
     this.s_Sucky= s_Sucky;

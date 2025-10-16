@@ -1,10 +1,9 @@
 package frc.robot.commands;
 
-import org.ejml.equation.Variable;
 
 import com.ctre.phoenix6.controls.VoltageOut;
 
-import edu.wpi.first.math.controller.PIDController;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.extendy;
 import frc.robot.subsystems.flippy;
