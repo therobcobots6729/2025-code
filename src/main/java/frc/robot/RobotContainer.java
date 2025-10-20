@@ -201,11 +201,11 @@ public class RobotContainer {
         //.alongWith(new FlipCommand(f_Flippy))
     ;
     L2ball.onTrue( new SequentialCommandGroup(
-      new flipBack(f_Flippy, e_Extendy).andThen(new L2Extension(e_Extendy, f_Flippy)).andThen(new flipDown(f_Flippy, e_Extendy))))
+      new flipBack(f_Flippy, e_Extendy).andThen(new L2Extension(e_Extendy, f_Flippy)).andThen(new flipDownBall(f_Flippy, e_Extendy))))
         //.alongWith(new FlipCommand(f_Flippy))
     ;
     L3ball.onTrue( new SequentialCommandGroup(
-      new flipBack(f_Flippy, e_Extendy).andThen(new L3Extension(e_Extendy, f_Flippy)).andThen(new flipDown(f_Flippy, e_Extendy))))
+      new flipBack(f_Flippy, e_Extendy).andThen(new L3Extension(e_Extendy, f_Flippy)).andThen(new flipDownBall(f_Flippy, e_Extendy))))
         //.alongWith(new FlipCommand(f_Flippy))
     ;
     holdball.onTrue( new SequentialCommandGroup(
